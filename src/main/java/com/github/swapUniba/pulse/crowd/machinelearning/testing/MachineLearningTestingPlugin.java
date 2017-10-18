@@ -40,7 +40,7 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
 
             @Override
             public void onNext(Message message) {
-
+                TestModel tm = new TestModel(machineLearningTestingConfig,message);
                 subscriber.onNext(message);
             }
         });
