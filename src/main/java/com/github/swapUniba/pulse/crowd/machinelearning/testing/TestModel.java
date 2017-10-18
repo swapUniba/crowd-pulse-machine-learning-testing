@@ -8,6 +8,8 @@ import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class TestModel {
@@ -32,11 +34,21 @@ public class TestModel {
         }
 
         Instances structure = WekaModelHandler.LoadInstanceStructure(config.getModelName());
+        structure.delete(0);
+        structure.setClassIndex(structure.numAttributes() - 1);
         Instance instance = MessageToWeka.getSingleInstanceFromMessage(structure,message, Feature.valueOf(config.getFeature().toUpperCase()));
 
+        List<Object> classes = new ArrayList<>();
+
         try {
+            Enumeration<Object> classEnum = structure.classAttribute().enumerateValues();
+            while (classEnum.hasMoreElements()) {
+                classes.add(classEnum.nextElement());
+            }
+
             Object classValue = classifier.classifyInstance(instance);
-            System.out.println(classValue.toString());
+            System.out.println("Classe: " + classValue.toString());
+            message.setParent(classValue.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

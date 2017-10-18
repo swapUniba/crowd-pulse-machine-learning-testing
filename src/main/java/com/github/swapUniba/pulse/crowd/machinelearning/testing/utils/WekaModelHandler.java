@@ -49,21 +49,21 @@ public class WekaModelHandler {
 
     public static Instances LoadInstanceStructure(String modelName) {
 
-        BufferedReader reader =
-                null;
+
+        BufferedReader br = null;
         try {
-            reader = new BufferedReader(new FileReader(curPath +modelName+ "_structure.arff"));
+            br = new BufferedReader(new FileReader(curPath +modelName+ "_structure.arff"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         ArffLoader.ArffReader arff = null;
         try {
-            arff = new ArffLoader.ArffReader(reader,0);
+            arff = new ArffLoader.ArffReader(br);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Instances data = arff.getStructure();
-        data.setClassIndex(data.numAttributes() - 1);
+        Instances data = arff.getData();
+        data.setClassIndex(- 1);
 
         return data;
     }

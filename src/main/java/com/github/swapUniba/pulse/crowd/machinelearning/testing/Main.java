@@ -28,7 +28,7 @@ public class Main {
         TestModel tm = new TestModel(cfg,msg);
 
         Object result = tm.RunTesting();
-        System.out.println(result.toString());
+        //System.out.println(result.toString());
 
     }
 

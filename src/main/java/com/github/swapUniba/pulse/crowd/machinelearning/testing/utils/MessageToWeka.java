@@ -117,15 +117,23 @@ public class MessageToWeka {
         Attribute classAttr = new Attribute("class",classValues);
         attributes.add(classAttr);
 
-        Instance inst = new DenseInstance(attributes.size()); //nAttributes deve essere già scremato dagli id
+        List<Attribute> attributesInStructure = new ArrayList<>();
+        Enumeration<Attribute> enAttr = structure.enumerateAttributes();
+        while (enAttr.hasMoreElements()) {
+            attributesInStructure.add(enAttr.nextElement());
+        }
+
+        Instance inst = new DenseInstance(attributesInStructure.size()); //nAttributes deve essere già scremato dagli id
         inst.setDataset(structure);
 
         for (String word : uniqueWords) {
-            int attrIndex = attributes.indexOf(new Attribute(word));
-            inst.setValue(attrIndex,1);
+            int attrIndex = attributesInStructure.indexOf(new Attribute(word));
+            if (attrIndex > -1) {
+                inst.setValue(attrIndex, 1);
+            }
         }
 
-        inst.setValue(uniqueWords.size() - 1,"?");
+        //inst.setValue(uniqueWords.size() - 1,"?");
 
         return inst;
 
