@@ -1,6 +1,7 @@
-package com.github.swapUniba.pulse.crowd.machinelearning.testing;
+package com.github.swapUniba.pulse.crowd.machinelearning.testing.testingModel;
 
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.enums.Feature;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.WekaModelHandler;
