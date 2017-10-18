@@ -41,6 +41,7 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
             @Override
             public void onNext(Message message) {
                 TestModel tm = new TestModel(machineLearningTestingConfig,message);
+                message = tm.RunTesting(); //aggiorna l'attributo classe del messaggio in base alla predizione
                 subscriber.onNext(message);
             }
         });

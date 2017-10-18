@@ -14,9 +14,12 @@ public class Main {
         cfg.setModelName("modello");
         cfg.setFeature("TOKEN");
 
+        //for (int i = 0; i<100; i++) {
+
+
         Message msg = new Message();
         Random rndm = new Random();
-        int nWords = rndm.nextInt(10)+1;
+        int nWords = rndm.nextInt(3)+1;
         List<Token> tokens = new ArrayList<>();
 
         for (int ii = 0; ii < nWords;ii++) {
@@ -29,15 +32,16 @@ public class Main {
 
         Object result = tm.RunTesting();
         //System.out.println(result.toString());
-
+        //}
     }
 
 
     private static String getRandomString() {
-        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        //char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char[] chars = "ab".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        for (int i = 0; i < random.nextInt(10)+3; i++) {
+        for (int i = 0; i < random.nextInt(2)+1; i++) {
             char c = chars[random.nextInt(chars.length)];
             sb.append(c);
         }
