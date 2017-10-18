@@ -47,7 +47,9 @@ public class TestModel {
             }
 
             Object classValue = classifier.classifyInstance(instance);
-            System.out.println("Classe: " + classValue.toString());
+            Double d = new Double((double)classValue);
+            int classPredIndex = d.intValue();
+            System.out.println("Classe: " + classes.get(classPredIndex).toString());
             message.setParent(classValue.toString());
         } catch (Exception e) {
             e.printStackTrace();

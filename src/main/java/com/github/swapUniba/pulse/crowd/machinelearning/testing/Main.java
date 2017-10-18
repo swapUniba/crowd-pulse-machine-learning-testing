@@ -14,7 +14,7 @@ public class Main {
         cfg.setModelName("modello");
         cfg.setFeature("TOKEN");
 
-        //for (int i = 0; i<100; i++) {
+        for (int i = 0; i<100; i++) {
 
 
         Message msg = new Message();
@@ -32,7 +32,7 @@ public class Main {
 
         Object result = tm.RunTesting();
         //System.out.println(result.toString());
-        //}
+        }
     }
 
 
