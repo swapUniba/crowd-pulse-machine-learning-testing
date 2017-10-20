@@ -50,7 +50,9 @@ public class TestModel {
             Double d = new Double((double)classValue);
             int classPredIndex = d.intValue();
             System.out.println("Classe: " + classes.get(classPredIndex).toString());
-            message.setParent(classValue.toString());
+
+            message.setParent(classValue.toString()); // imposta la classe nel messaggio e lo restituisce in output
+
         } catch (Exception e) {
             e.printStackTrace();
         }
