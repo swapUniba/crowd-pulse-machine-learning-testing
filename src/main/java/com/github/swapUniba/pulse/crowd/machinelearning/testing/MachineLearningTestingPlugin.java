@@ -3,7 +3,7 @@ package com.github.swapUniba.pulse.crowd.machinelearning.testing;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.spi.IPlugin;
 import com.github.frapontillo.pulse.util.PulseLogger;
-import com.github.swapUniba.pulse.crowd.machinelearning.testing.testingModel.TestModel;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
 import org.apache.logging.log4j.Logger;
 import rx.Observable;
 import rx.Subscriber;

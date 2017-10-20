@@ -6,7 +6,7 @@ import java.util.Random;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Token;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
-import com.github.swapUniba.pulse.crowd.machinelearning.testing.testingModel.TestModel;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
 
 public class Main {
 

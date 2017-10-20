@@ -1,4 +1,4 @@
-package com.github.swapUniba.pulse.crowd.machinelearning.testing.testingModel;
+package com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting;
 
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
@@ -35,7 +35,6 @@ public class TestModel {
         }
 
         Instances structure = WekaModelHandler.LoadInstanceStructure(config.getModelName());
-        structure.delete(0);
         structure.setClassIndex(structure.numAttributes() - 1);
         Instance instance = MessageToWeka.getSingleInstanceFromMessage(structure,message, Feature.valueOf(config.getFeature().toUpperCase()));
 

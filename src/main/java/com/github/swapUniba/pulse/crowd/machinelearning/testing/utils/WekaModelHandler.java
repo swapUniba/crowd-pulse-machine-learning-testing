@@ -62,7 +62,7 @@ public class WekaModelHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Instances data = arff.getData();
+        Instances data = arff.getStructure();
         data.setClassIndex(-1);
 
         return data;

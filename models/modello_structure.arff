@@ -2,11 +2,16 @@
 
 @attribute aa numeric
 @attribute ab numeric
+@attribute ac numeric
 @attribute ba numeric
 @attribute bb numeric
+@attribute bc numeric
+@attribute ca numeric
+@attribute cb numeric
+@attribute cc numeric
 @attribute a numeric
 @attribute b numeric
-@attribute class {m5s,pd}
+@attribute c numeric
+@attribute predClass {m5s,pd}
 
 @data
-1,0,0,0,0,0,m5s
