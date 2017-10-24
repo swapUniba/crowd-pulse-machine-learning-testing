@@ -52,11 +52,11 @@ public class TestModel {
             System.out.println("Classe: " + predClass);
 
             double[] predictionScore = classifier.distributionForInstance(instance);
-            for(int i=0; i<predictionScore.length; i=i+1)
+            for(int i = 0; i < predictionScore.length; i = i + 1)
             {
-                System.out.println("Probability of class "+
-                        instance.classAttribute().value(i)+
-                        " : "+Double.toString(predictionScore[i]));
+                System.out.println("Probability of class " +
+                        instance.classAttribute().value(i) +
+                        " : " + Double.toString(predictionScore[i]));
             }
 
             if (message.getTags() == null) {
