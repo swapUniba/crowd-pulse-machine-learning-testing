@@ -51,15 +51,28 @@ public class TestModel {
             String predClass = classes.get(classPredIndex).toString();
             System.out.println("Classe: " + predClass);
 
-            //message.setParent(classValue.toString()); // imposta la classe nel messaggio e lo restituisce in output
+            double[] predictionScore = classifier.distributionForInstance(instance);
+            for(int i=0; i<predictionScore.length; i=i+1)
+            {
+                System.out.println("Probability of class "+
+                        instance.classAttribute().value(i)+
+                        " : "+Double.toString(predictionScore[i]));
+            }
+
             if (message.getTags() == null) {
                 message.setTags(new HashSet<>());
             }
 
             Set<Tag> tags = message.getTags();
-            Tag tag = new Tag();
-            tag.setText("testing_" + config.getModelName() + "_" + predClass);
-            tags.add(tag);
+            Tag tagClass = new Tag();
+            tagClass.setText("testing_" + config.getModelName() + "_class_" + predClass);
+            tags.add(tagClass);
+
+            Tag tagScore = new Tag();
+            int maxIndex = maxScoreIndex(predictionScore);
+
+            tagScore.setText("testing_" + config.getModelName() + "_score_" + Double.toString(predictionScore[maxIndex]));
+            tags.add(tagScore);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +80,21 @@ public class TestModel {
 
         return message;
 
+    }
+
+    private int maxScoreIndex(double[] predictions) {
+        int index = 0;
+        double largest = Double.MIN_VALUE;
+
+        for ( int i = 0; i < predictions.length; i++ )
+        {
+            if ( predictions[i] > largest )
+            {
+                largest = predictions[i];
+                index = i;
+            }
+        }
+        return index;
     }
 
 }
