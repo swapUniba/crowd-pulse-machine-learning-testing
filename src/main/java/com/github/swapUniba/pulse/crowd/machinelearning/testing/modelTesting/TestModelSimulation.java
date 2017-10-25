@@ -35,6 +35,7 @@ public class TestModelSimulation {
         try {
             classifier = WekaModelHandler.LoadModel(config.getModelName());
             trainingInstances = WekaModelHandler.LoadTrainingSet(config.getModelName());
+            trainingInstances.setClassIndex(trainingInstances.numAttributes()-1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,11 +45,13 @@ public class TestModelSimulation {
 
         String[] attributes = WekaModelHandler.loadFeatures(config.getModelName());
 
-        testingInstances = MessageToWeka.getInstancesFromMessages(messages,attributes,config.getModelName());
+        testingInstances = MessageToWeka.getInstancesFromMessagesTest(messages,structure,attributes,config.getModelName());
 
         try {
             Evaluation eval = new Evaluation(trainingInstances);
-            eval.evaluateModel(classifier,testingInstances,config.getOptions());
+            eval.evaluateModel(classifier,trainingInstances,config.getOptions()); // ATTENZIONE! è il resubstitution error!
+            System.out.println(eval.correct());
+            System.out.println(eval.meanAbsoluteError());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -15,13 +15,13 @@ public class MessageToWeka {
 
     private static String classAttributeName = "predictedClass";
 
-    public static Instances getInstancesFromMessages(List<Message> msgs, String[] features, String modelName) {
+    public static Instances getInstancesFromMessages(List<Message> messages, String[] features, String modelName) {
 
         Instances result = null;
         List<String> words;
         ArrayList<Attribute> attributes = new ArrayList<>();
 
-        List<Message> messages = filterMessages(msgs,modelName); //elimina i messaggi che non hanno la classe corretta
+        //List<Message> messages = filterMessages(msgs,modelName); //elimina i messaggi che non hanno la classe corretta
 
         List<Attribute> numericAttributes = getNumericAttributes(features);
         List<Attribute> stringAttributes = getStringAttributes(messages,features);

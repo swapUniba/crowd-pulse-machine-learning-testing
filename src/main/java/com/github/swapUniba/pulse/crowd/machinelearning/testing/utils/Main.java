@@ -7,35 +7,66 @@ import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Token;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModelSimulation;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        //TestSingleInstance();
+        TestTestingSet();
+
+    }
+
+    private static void TestSingleInstance() {
         MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
         cfg.setModelName("modello");
 
         for (int i = 0; i<100; i++) {
 
+            Message msg = new Message();
+            Random rndm = new Random();
+            int nWords = rndm.nextInt(3)+1;
+            List<Token> tokens = new ArrayList<>();
 
-        Message msg = new Message();
-        Random rndm = new Random();
-        int nWords = rndm.nextInt(3)+1;
-        List<Token> tokens = new ArrayList<>();
+            for (int ii = 0; ii < nWords;ii++) {
+                tokens.add(new Token(getRandomString()));
+            }
 
-        for (int ii = 0; ii < nWords;ii++) {
-            tokens.add(new Token(getRandomString()));
-        }
+            msg.setTokens(tokens);
 
-        msg.setTokens(tokens);
+            TestModel tm = new TestModel(cfg,msg);
 
-        TestModel tm = new TestModel(cfg,msg);
+            Object result = tm.RunTesting();
 
-        Object result = tm.RunTesting();
-        //System.out.println(result.toString());
         }
     }
 
+    private static void TestTestingSet() {
+        MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
+        cfg.setModelName("modello");
+
+        List<Message> messages = new ArrayList<>();
+
+        for (int i = 0; i<100; i++) {
+
+            Message msg = new Message();
+            Random rndm = new Random();
+            int nWords = rndm.nextInt(3)+1;
+            List<Token> tokens = new ArrayList<>();
+
+            for (int ii = 0; ii < nWords;ii++) {
+                tokens.add(new Token(getRandomString()));
+            }
+
+            msg.setTokens(tokens);
+            messages.add(msg);
+        }
+
+        TestModelSimulation tm = new TestModelSimulation(cfg,messages);
+        tm.RunTestingSimulation();
+
+    }
 
     private static String getRandomString() {
         //char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
