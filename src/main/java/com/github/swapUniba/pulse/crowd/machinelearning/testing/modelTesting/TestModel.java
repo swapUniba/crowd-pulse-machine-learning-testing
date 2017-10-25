@@ -3,7 +3,6 @@ package com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Tag;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
-import com.github.swapUniba.pulse.crowd.machinelearning.testing.enums.Feature;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.WekaModelHandler;
 import weka.classifiers.Classifier;
@@ -11,6 +10,8 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 import java.util.*;
+
+// SINTASSI WEKA PER INFORMAZIONI SUL TESTING http://www.cs.tufts.edu/~ablumer/weka/doc/weka.classifiers.Evaluation.html
 
 public class TestModel {
 
@@ -35,7 +36,13 @@ public class TestModel {
 
         Instances structure = WekaModelHandler.LoadInstanceStructure(config.getModelName());
         structure.setClassIndex(structure.numAttributes() - 1);
-        Instance instance = MessageToWeka.getSingleInstanceFromMessage(structure,message, Feature.valueOf(config.getFeature().toUpperCase()));
+        String[] features = WekaModelHandler.loadFeatures(config.getModelName());
+
+        List<Message> messages = new ArrayList<>();
+        messages.add(message);
+
+        // prende l'unica istanza, dato che è un test puntuale
+        Instance instance = MessageToWeka.getInstancesFromMessagesTest(messages,structure,features, config.getModelName()).get(0);
 
         List<Object> classes = new ArrayList<>();
 
@@ -45,6 +52,7 @@ public class TestModel {
                 classes.add(classEnum.nextElement());
             }
 
+            assert classifier != null;
             Object classValue = classifier.classifyInstance(instance);
             Double d = new Double((double)classValue);
             int classPredIndex = d.intValue();
@@ -55,11 +63,13 @@ public class TestModel {
                 message.setTags(new HashSet<>());
             }
 
+            // Memorizza nei tag la classe associata
             Set<Tag> tags = message.getTags();
             Tag tagClass = new Tag();
             tagClass.setText("testing_" + config.getModelName() + "_class_" + predClass);
             tags.add(tagClass);
 
+            // Memorizza nei tag lo score rispetto ad ogni classe associato all'istanza
             double[] predictionScore = classifier.distributionForInstance(instance);
             for(int i = 0; i < predictionScore.length; i = i + 1)
             {

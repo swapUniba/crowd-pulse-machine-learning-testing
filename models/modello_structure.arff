@@ -1,5 +1,8 @@
 @relation modello
 
+@attribute sentiment numeric
+@attribute latitude numeric
+@attribute longitude numeric
 @attribute aa numeric
 @attribute ab numeric
 @attribute ac numeric
@@ -12,6 +15,19 @@
 @attribute a numeric
 @attribute b numeric
 @attribute c numeric
-@attribute predClass {m5s,pd}
+@attribute #aa numeric
+@attribute #ab numeric
+@attribute #ac numeric
+@attribute #a numeric
+@attribute #b numeric
+@attribute #c numeric
+@attribute #ba numeric
+@attribute #bb numeric
+@attribute #bc numeric
+@attribute #ca numeric
+@attribute #cb numeric
+@attribute #cc numeric
+@attribute language {en}
+@attribute predictedClass {training_modello_class_pd,training_modello_class_m5s}
 
 @data

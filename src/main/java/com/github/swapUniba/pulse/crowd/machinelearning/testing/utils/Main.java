@@ -14,7 +14,6 @@ public class Main {
 
         MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
         cfg.setModelName("modello");
-        cfg.setFeature("TOKEN");
 
         for (int i = 0; i<100; i++) {
 

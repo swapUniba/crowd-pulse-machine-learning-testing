@@ -4,10 +4,14 @@ import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.spi.IPlugin;
 import com.github.frapontillo.pulse.util.PulseLogger;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModelSimulation;
 import org.apache.logging.log4j.Logger;
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.SafeSubscriber;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MachineLearningTestingPlugin extends IPlugin<Message,Message,MachineLearningTestingConfig> {
 
@@ -28,8 +32,16 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
     protected Observable.Operator<Message, Message> getOperator(MachineLearningTestingConfig machineLearningTestingConfig) {
         return subscriber -> new SafeSubscriber<>(new Subscriber<Message>() {
 
+            List<Message> messages = new ArrayList<>();
+
             @Override
             public void onCompleted() {
+
+                if (machineLearningTestingConfig.isSimulation()) {
+                    TestModelSimulation tm = new TestModelSimulation(machineLearningTestingConfig,messages);
+                    tm.RunTestingSimulation();
+                }
+
                 subscriber.onCompleted();
             }
 
@@ -41,8 +53,15 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
 
             @Override
             public void onNext(Message message) {
-                TestModel tm = new TestModel(machineLearningTestingConfig,message);
-                message = tm.RunTesting(); //aggiorna l'attributo classe del messaggio in base alla predizione
+
+                if (machineLearningTestingConfig.isSimulation()) {
+                    messages.add(message);
+                }
+                else {
+                    TestModel tm = new TestModel(machineLearningTestingConfig,message);
+                    message = tm.RunTesting(); //aggiorna l'attributo classe del messaggio in base alla predizione
+                }
+
                 subscriber.onNext(message);
             }
         });
