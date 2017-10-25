@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.SafeSubscriber;
-
 import java.util.ArrayList;
 import java.util.List;
 

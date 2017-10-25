@@ -103,11 +103,12 @@ public class MessageToWeka {
                     }
                 }
             }
-            String classValue = getMessageClassLabel(m,modelName);
+
+            /*String classValue = getMessageClassLabel(m,modelName);
             if (!classValue.equalsIgnoreCase("")) {
                 inst.setValue(classAttr,classValue);
                 result.add(inst);
-            }
+            }*/
 
         }
 

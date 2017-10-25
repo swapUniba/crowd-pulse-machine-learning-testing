@@ -12,6 +12,7 @@ import weka.core.Instances;
 import java.util.*;
 
 // SINTASSI WEKA PER INFORMAZIONI SUL TESTING http://www.cs.tufts.edu/~ablumer/weka/doc/weka.classifiers.Evaluation.html
+// https://www.programcreek.com/java-api-examples/index.php?api=weka.classifiers.Evaluation
 
 public class TestModel {
 
@@ -66,7 +67,8 @@ public class TestModel {
             // Memorizza nei tag la classe associata
             Set<Tag> tags = message.getTags();
             Tag tagClass = new Tag();
-            tagClass.setText("testing_" + config.getModelName() + "_class_" + predClass);
+            //tagClass.setText("testing_" + config.getModelName() + "_class_" + predClass);
+            tagClass.setText(predClass.replace("training","testing"));
             tags.add(tagClass);
 
             // Memorizza nei tag lo score rispetto ad ogni classe associato all'istanza
@@ -75,7 +77,8 @@ public class TestModel {
             {
                 //System.out.println("Probability of class " + instance.classAttribute().value(i) + " : " + Double.toString(predictionScore[i]));
                 Tag tagScore = new Tag();
-                tagScore.setText("testing_" + config.getModelName() + "_class_" + instance.classAttribute().value(i) + "_score_" + Double.toString(predictionScore[i]));
+                //tagScore.setText("testing_" + config.getModelName() + "_class_" + instance.classAttribute().value(i) + "_score_" + Double.toString(predictionScore[i]));
+                tagScore.setText(instance.classAttribute().value(i).replace("training","testing") + "_score_" + Double.toString(predictionScore[i]));
                 tags.add(tagScore);
             }
 
