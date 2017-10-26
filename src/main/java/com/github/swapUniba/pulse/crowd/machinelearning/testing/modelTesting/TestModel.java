@@ -64,10 +64,10 @@ public class TestModel {
                 message.setTags(new HashSet<>());
             }
 
-            // Memorizza nei tag la classe associata
+            // Memorizza nei tag la classe associata, rimpiazza training con testing nella classe, per capire che è
+            // stata associata dal testing
             Set<Tag> tags = message.getTags();
             Tag tagClass = new Tag();
-            //tagClass.setText("testing_" + config.getModelName() + "_class_" + predClass);
             tagClass.setText(predClass.replace("training","testing"));
             tags.add(tagClass);
 
@@ -75,9 +75,7 @@ public class TestModel {
             double[] predictionScore = classifier.distributionForInstance(instance);
             for(int i = 0; i < predictionScore.length; i = i + 1)
             {
-                //System.out.println("Probability of class " + instance.classAttribute().value(i) + " : " + Double.toString(predictionScore[i]));
                 Tag tagScore = new Tag();
-                //tagScore.setText("testing_" + config.getModelName() + "_class_" + instance.classAttribute().value(i) + "_score_" + Double.toString(predictionScore[i]));
                 tagScore.setText(instance.classAttribute().value(i).replace("training","testing") + "_score_" + Double.toString(predictionScore[i]));
                 tags.add(tagScore);
             }

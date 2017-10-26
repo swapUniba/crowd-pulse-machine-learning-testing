@@ -138,7 +138,7 @@ public class MessageToWeka {
         attributes.add(classAttr);*/
 
         //result = new Instances(modelName,attributes,10);
-        result.setClassIndex(result.numAttributes() - 1);
+        result.setClassIndex(structure.numAttributes() - 1);
 
 
         for (Message m : messages) {
@@ -222,24 +222,24 @@ public class MessageToWeka {
                         }
                         else {
                             if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
-                                    || msgFeature == MessageFeatures.refUsers) && !Arrays.asList(features).contains(attr.name())) {
+                                    || msgFeature == MessageFeatures.refUsers)) {
 
                                 List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
                                 if (wordsInMessage.indexOf(attr.name()) == -1) {
                                     try {
                                         if (inst.value(attr) != 1) {
-                                            inst.setValue(attr, 0);
+                                            inst.setValue(structure.attribute(attr.name()).index(), 0);
                                         }
                                     }
                                     catch (Exception ex) {
-                                        // attributo non presente nel messaggio
+                                        String a = "";
                                     }
                                 } else {
                                     try {
-                                        inst.setValue(attr, 1);
+                                        inst.setValue(structure.attribute(attr.name()).index(), 1);
                                     }
                                     catch(Exception ex) {
-                                       // attributo non presente nel messaggio
+                                       String a = "";// attributo non presente nel messaggio
                                     }
                                 }
                             }
