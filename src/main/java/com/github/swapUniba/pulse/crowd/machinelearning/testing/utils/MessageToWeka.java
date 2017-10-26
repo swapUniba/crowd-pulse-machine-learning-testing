@@ -121,9 +121,6 @@ public class MessageToWeka {
         Instances result = structure;
         List<String> words;
         ArrayList<Attribute> attributes = new ArrayList<>();
-
-        //List<Message> messages = filterMessages(msgs,modelName); //elimina i messaggi che non hanno la classe corretta
-
         List<Attribute> numericAttributes = getNumericAttributes(features);
         List<Attribute> stringAttributes = getStringAttributes(messages,features);
         List<Attribute> dateAttributes = getDateAttributes(features);
@@ -132,14 +129,7 @@ public class MessageToWeka {
         attributes.addAll(stringAttributes);
         attributes.addAll(dateAttributes);
 
-        /*List<String> classValues = new ArrayList<>();
-        classValues.add("?");
-        Attribute classAttr = new Attribute(classAttributeName,classValues);
-        attributes.add(classAttr);*/
-
-        //result = new Instances(modelName,attributes,10);
         result.setClassIndex(structure.numAttributes() - 1);
-
 
         for (Message m : messages) {
 
@@ -175,9 +165,14 @@ public class MessageToWeka {
                             }
                         }
                         else if (msgFeature == MessageFeatures.language && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object language = m.getLanguage();
-                            if (language != null) {
-                                inst.setValue(attrIndex, m.getLanguage());
+                            try {
+                                Object language = m.getLanguage();
+                                if (language != null) {
+                                    inst.setValue(attrIndex, m.getLanguage());
+                                }
+                            }
+                            catch (Exception ex) {
+                                // stringa non presente nel modello
                             }
                         }
                         else if (msgFeature == MessageFeatures.shares && attr.name().equalsIgnoreCase(msgFeature.toString())) {

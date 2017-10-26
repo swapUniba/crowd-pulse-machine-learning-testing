@@ -38,6 +38,8 @@ public class Main {
             msg.setLanguage("en");
             msg.setLongitude(rndm.nextDouble());
             msg.setLatitude(rndm.nextDouble());
+            msg.setFavs(rndm.nextInt());
+            msg.setShares(rndm.nextInt());
             TestModel tm = new TestModel(cfg,msg);
 
             Object result = tm.RunTesting();
