@@ -150,7 +150,7 @@ public class MessageToWeka {
 
                 for(Attribute attr : attributes) { //dove non c'è l'occorrenza devo mettere 0
 
-                    if(!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) {
+                    if(!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) { // scansiona tutti gli attr, tranne quello di classe
 
                         MessageFeatures msgFeature = MessageFeatures.valueOf(feature.toLowerCase());
 
@@ -232,6 +232,7 @@ public class MessageToWeka {
                                         }
                                     }
                                     catch (Exception ex) {
+                                        //inst.setValue(structure.attribute(attr.name()).index(), 0);
                                         String a = "";
                                     }
                                 } else {
@@ -249,12 +250,6 @@ public class MessageToWeka {
             }
 
             result.add(inst);
-
-            /*String classValue = "?";
-            if (!classValue.equalsIgnoreCase("")) {
-                inst.setValue(classAttr,classValue);
-                result.add(inst);
-            }*/
 
         }
 
