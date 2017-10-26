@@ -154,74 +154,76 @@ public class MessageToWeka {
 
                         MessageFeatures msgFeature = MessageFeatures.valueOf(feature.toLowerCase());
 
+                        int attrIndex = structure.attribute(attr.name()).index();
+
                         if (msgFeature == MessageFeatures.cluster_kmeans && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object cluster = m.getClusterKmeans();
                             if (cluster != null) {
-                                inst.setValue(attr, m.getClusterKmeans());
+                                inst.setValue(attrIndex, m.getClusterKmeans());
                             }
                         }
                         else if (msgFeature == MessageFeatures.sentiment && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object sentiment = m.getSentiment();
                             if (sentiment != null) {
-                                inst.setValue(attr, m.getSentiment());
+                                inst.setValue(attrIndex, m.getSentiment());
                             }
                         }
                         else if (msgFeature == MessageFeatures.number_cluster && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object cluster = m.getCluster();
                             if (cluster != null) {
-                                inst.setValue(attr, m.getCluster());
+                                inst.setValue(attrIndex, m.getCluster());
                             }
                         }
                         else if (msgFeature == MessageFeatures.language && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object language = m.getLanguage();
                             if (language != null) {
-                                inst.setValue(attr, m.getLanguage());
+                                inst.setValue(attrIndex, m.getLanguage());
                             }
                         }
                         else if (msgFeature == MessageFeatures.shares && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object shares = m.getShares();
                             if (shares != null) {
-                                inst.setValue(attr, m.getShares());
+                                inst.setValue(attrIndex, m.getShares());
                             }
                         }
                         else if (msgFeature == MessageFeatures.favs && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object favs = m.getFavs();
                             if (favs != null) {
-                                inst.setValue(attr, m.getFavs());
+                                inst.setValue(attrIndex, m.getFavs());
                             }
                         }
                         else if (msgFeature == MessageFeatures.latitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object latitude = m.getLatitude();
                             if (latitude != null) {
-                                inst.setValue(attr, m.getLatitude());
+                                inst.setValue(attrIndex, m.getLatitude());
                             }
                         }
                         else if (msgFeature == MessageFeatures.longitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object longitude = m.getLongitude();
                             if (longitude != null) {
-                                inst.setValue(attr, m.getLongitude());
+                                inst.setValue(attrIndex, m.getLongitude());
                             }
                         }
                         else if (msgFeature == MessageFeatures.text && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object text = m.getText();
                             if (text != null) {
-                                inst.setValue(attr, m.getText());
+                                inst.setValue(attrIndex, m.getText());
                             }
                         }
                         else if (msgFeature == MessageFeatures.source && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object source = m.getSource();
                             if (source != null) {
-                                inst.setValue(attr, m.getSource());
+                                inst.setValue(attrIndex, m.getSource());
                             }
                         }
                         else if (msgFeature == MessageFeatures.fromUser && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object fromUser = m.getFromUser();
                             if (fromUser != null) {
-                                inst.setValue(attr, m.getFromUser());
+                                inst.setValue(attrIndex, m.getFromUser());
                             }
                         }
                         else {
-                            if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
+/*                            if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
                                     || msgFeature == MessageFeatures.refUsers)) {
 
                                 List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
@@ -232,7 +234,7 @@ public class MessageToWeka {
                                         }
                                     }
                                     catch (Exception ex) {
-                                        //inst.setValue(structure.attribute(attr.name()).index(), 0);
+                                        inst.setValue(structure.attribute(attr.name()).index(), 0);
                                         String a = "";
                                     }
                                 } else {
@@ -243,7 +245,7 @@ public class MessageToWeka {
                                        String a = "";// attributo non presente nel messaggio
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
                 }

@@ -33,8 +33,11 @@ public class Main {
                 tokens.add(new Token(getRandomString()));
             }
 
+            msg.setSentiment(rndm.nextDouble());
             msg.setTokens(tokens);
-
+            msg.setLanguage("en");
+            msg.setLongitude(rndm.nextDouble());
+            msg.setLatitude(rndm.nextDouble());
             TestModel tm = new TestModel(cfg,msg);
 
             Object result = tm.RunTesting();
