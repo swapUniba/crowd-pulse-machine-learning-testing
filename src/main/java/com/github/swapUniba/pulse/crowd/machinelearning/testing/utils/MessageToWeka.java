@@ -309,6 +309,7 @@ public class MessageToWeka {
         return result;
     }
 
+    // se la feature è stringa metti 1, se è una lista metti 2 per andarle ad elaborare in seguito
     private static List<Attribute> getStringAttributes(List<Message> messages, String[] features) {
 
         List<Attribute> result = new ArrayList<>();
