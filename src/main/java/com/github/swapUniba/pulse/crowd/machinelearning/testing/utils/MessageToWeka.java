@@ -115,6 +115,7 @@ public class MessageToWeka {
         return result;
     }
 
+    // Riceve un messaggio, ne estrae le features rilevanti per il modello per poterlo classificare
     public static Instances getInstancesFromMessagesTest(List<Message> messages, Instances structure, String[] features, String modelName) {
 
         Instances result = structure;
@@ -154,7 +155,10 @@ public class MessageToWeka {
                         MessageFeatures msgFeature = MessageFeatures.valueOf(feature.toLowerCase());
 
                         if (msgFeature == MessageFeatures.cluster_kmeans && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getClusterKmeans());
+                            Object cluster = m.getClusterKmeans();
+                            if (cluster != null) {
+                                inst.setValue(attr, m.getClusterKmeans());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.sentiment && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object sentiment = m.getSentiment();
@@ -163,7 +167,10 @@ public class MessageToWeka {
                             }
                         }
                         else if (msgFeature == MessageFeatures.number_cluster && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getCluster());
+                            Object cluster = m.getCluster();
+                            if (cluster != null) {
+                                inst.setValue(attr, m.getCluster());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.language && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object language = m.getLanguage();
@@ -172,10 +179,16 @@ public class MessageToWeka {
                             }
                         }
                         else if (msgFeature == MessageFeatures.shares && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getShares());
+                            Object shares = m.getShares();
+                            if (shares != null) {
+                                inst.setValue(attr, m.getShares());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.favs && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getFavs());
+                            Object favs = m.getFavs();
+                            if (favs != null) {
+                                inst.setValue(attr, m.getFavs());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.latitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Object latitude = m.getLatitude();
@@ -190,13 +203,22 @@ public class MessageToWeka {
                             }
                         }
                         else if (msgFeature == MessageFeatures.text && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getText());
+                            Object text = m.getText();
+                            if (text != null) {
+                                inst.setValue(attr, m.getText());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.source && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getSource());
+                            Object source = m.getSource();
+                            if (source != null) {
+                                inst.setValue(attr, m.getSource());
+                            }
                         }
                         else if (msgFeature == MessageFeatures.fromUser && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            inst.setValue(attr, m.getFromUser());
+                            Object fromUser = m.getFromUser();
+                            if (fromUser != null) {
+                                inst.setValue(attr, m.getFromUser());
+                            }
                         }
                         else {
                             if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers

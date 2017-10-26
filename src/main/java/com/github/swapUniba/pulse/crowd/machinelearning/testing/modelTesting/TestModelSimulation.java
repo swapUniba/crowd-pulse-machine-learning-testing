@@ -1,14 +1,11 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting;
 
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
-import com.github.frapontillo.pulse.crowd.data.entity.Tag;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.WekaModelHandler;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
-import weka.core.Attribute;
-import weka.core.Instance;
 import weka.core.Instances;
 
 import java.util.*;
