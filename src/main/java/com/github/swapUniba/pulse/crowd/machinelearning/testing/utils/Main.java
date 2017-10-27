@@ -3,6 +3,8 @@ package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.github.frapontillo.pulse.crowd.data.entity.Entity;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Token;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
@@ -51,7 +53,7 @@ public class Main {
         MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
         cfg.setModelName("modello");
 
-        List<Message> messages = new ArrayList<>();
+        List<Entity> messages = new ArrayList<>();
 
         for (int i = 0; i<100; i++) {
 

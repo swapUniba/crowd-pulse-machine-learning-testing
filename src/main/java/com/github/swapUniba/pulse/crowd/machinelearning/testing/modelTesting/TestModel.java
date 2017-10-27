@@ -1,6 +1,8 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting;
 
+import com.github.frapontillo.pulse.crowd.data.entity.Entity;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
+import com.github.frapontillo.pulse.crowd.data.entity.Profile;
 import com.github.frapontillo.pulse.crowd.data.entity.Tag;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
@@ -17,17 +19,36 @@ import java.util.*;
 public class TestModel {
 
     private MachineLearningTestingConfig config;
-    private Message message;
+    private Entity entity;
 
-    public TestModel(MachineLearningTestingConfig cfg, Message msg) {
+    public TestModel(MachineLearningTestingConfig cfg, Entity entity) {
         this.config = cfg;
-        this.message = msg;
+        this.entity = entity;
     }
 
+    /**
+     * Effettua il test in base al tipo di Entity passata nel costruttore
+     * @return
+     */
+    public Entity RunTesting() {
 
-    public Message RunTesting() {
+        Entity result = null;
+
+        if (entity.getClass() == Message.class) {
+            result = RunMessageTesting();
+        }
+        else if (entity.getClass() == Profile.class) {
+            // scrivere il test per il profilo!
+        }
+
+        return result;
+    }
+
+    private Message RunMessageTesting() {
 
         Classifier classifier = null;
+
+        Message message = (Message)entity;
 
         try {
              classifier = WekaModelHandler.LoadModel(config.getModelName());

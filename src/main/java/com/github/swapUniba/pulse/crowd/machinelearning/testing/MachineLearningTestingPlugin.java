@@ -1,6 +1,6 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing;
 
-import com.github.frapontillo.pulse.crowd.data.entity.Message;
+import com.github.frapontillo.pulse.crowd.data.entity.Entity;
 import com.github.frapontillo.pulse.spi.IPlugin;
 import com.github.frapontillo.pulse.util.PulseLogger;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
@@ -12,7 +12,7 @@ import rx.observers.SafeSubscriber;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MachineLearningTestingPlugin extends IPlugin<Message,Message,MachineLearningTestingConfig> {
+public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineLearningTestingConfig> {
 
     private static final String PLUGIN_NAME = "machine-learning-testing";
     public static final Logger logger = PulseLogger.getLogger(MachineLearningTestingPlugin.class);
@@ -28,16 +28,16 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
     }
 
     @Override
-    protected Observable.Operator<Message, Message> getOperator(MachineLearningTestingConfig machineLearningTestingConfig) {
-        return subscriber -> new SafeSubscriber<>(new Subscriber<Message>() {
+    protected Observable.Operator<Entity, Entity> getOperator(MachineLearningTestingConfig machineLearningTestingConfig) {
+        return subscriber -> new SafeSubscriber<>(new Subscriber<Entity>() {
 
-            List<Message> messages = new ArrayList<>();
+            List<Entity> entities = new ArrayList<>();
 
             @Override
             public void onCompleted() {
 
                 if (machineLearningTestingConfig.isSimulation()) {
-                    TestModelSimulation tm = new TestModelSimulation(machineLearningTestingConfig,messages);
+                    TestModelSimulation tm = new TestModelSimulation(machineLearningTestingConfig,entities);
                     tm.RunTestingSimulation();
                 }
 
@@ -51,17 +51,17 @@ public class MachineLearningTestingPlugin extends IPlugin<Message,Message,Machin
             }
 
             @Override
-            public void onNext(Message message) {
+            public void onNext(Entity entity) {
 
                 if (machineLearningTestingConfig.isSimulation()) {
-                    messages.add(message);
+                    entities.add(entity);
                 }
                 else {
-                    TestModel tm = new TestModel(machineLearningTestingConfig,message);
-                    message = tm.RunTesting(); //aggiorna l'attributo classe del messaggio in base alla predizione
+                    TestModel tm = new TestModel(machineLearningTestingConfig,entity);
+                    entity = tm.RunTesting(); //aggiorna l'attributo classe dell'entita in base alla predizione
                 }
 
-                subscriber.onNext(message);
+                subscriber.onNext(entity);
             }
         });
     }

@@ -1,6 +1,8 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting;
 
+import com.github.frapontillo.pulse.crowd.data.entity.Entity;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
+import com.github.frapontillo.pulse.crowd.data.entity.Profile;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.WekaModelHandler;
@@ -15,19 +17,38 @@ import java.util.*;
 public class TestModelSimulation {
 
     private MachineLearningTestingConfig config;
-    private List<Message> messages;
+    private List<Entity> entities;
 
-    public TestModelSimulation(MachineLearningTestingConfig cfg, List<Message> messages) {
+    public TestModelSimulation(MachineLearningTestingConfig cfg, List<Entity> entities) {
         this.config = cfg;
-        this.messages = messages;
+        this.entities = entities;
     }
 
-
     public void RunTestingSimulation() {
+
+        if (entities.size() > 0) {
+
+            Entity entity = entities.get(0);
+
+            if (entity.getClass() == Message.class) {
+                RunMessageTestingSimulation();
+            }
+            else if (entity.getClass() == Profile.class) {
+                // chiamata al tester dei profili
+            }
+
+        }
+
+    }
+
+    private void RunMessageTestingSimulation() {
 
         Classifier classifier = null;
         Instances trainingInstances = null;
         Instances testingInstances = null;
+
+        List<? super Message> ent = entities;
+        List<Message> messages = (List<Message>)ent;
 
         try {
             classifier = WekaModelHandler.LoadModel(config.getModelName());

@@ -119,15 +119,6 @@ public class MessageToWeka {
     public static Instances getInstancesFromMessagesTest(List<Message> messages, Instances structure, String[] features, String modelName) {
 
         Instances result = structure;
-        List<String> words;
-        ArrayList<Attribute> attributes = new ArrayList<>();
-        List<Attribute> numericAttributes = getNumericAttributes(features);
-        List<Attribute> stringAttributes = getStringAttributes(messages,features);
-        List<Attribute> dateAttributes = getDateAttributes(features);
-
-        attributes.addAll(numericAttributes);
-        attributes.addAll(stringAttributes);
-        attributes.addAll(dateAttributes);
 
         result.setClassIndex(structure.numAttributes() - 1);
 
@@ -138,7 +129,11 @@ public class MessageToWeka {
 
             for (String feature : features) {
 
-                for(Attribute attr : attributes) { //dove non c'è l'occorrenza devo mettere 0
+                Enumeration<Attribute> attrEnum = structure.enumerateAttributes();
+
+                while (attrEnum.hasMoreElements()) {
+
+                    Attribute attr = attrEnum.nextElement();
 
                     if(!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) { // scansiona tutti gli attr, tranne quello di classe
 
@@ -218,29 +213,20 @@ public class MessageToWeka {
                             }
                         }
                         else {
-                            if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
-                                    || msgFeature == MessageFeatures.refUsers)) {
 
-                                List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
-                                if (wordsInMessage.indexOf(attr.name()) == -1) {
-                                    try {
-                                        if (inst.value(attr) != 1) {
-                                            inst.setValue(structure.attribute(attr.name()).index(), 0);
-                                        }
-                                    }
-                                    catch (Exception ex) {
-                                        inst.setValue(structure.attribute(attr.name()).index(), 0);
-                                        String a = "";
-                                    }
-                                } else {
-                                    try {
-                                        inst.setValue(structure.attribute(attr.name()).index(), 1);
-                                    }
-                                    catch(Exception ex) {
-                                       String a = "";// attributo non presente nel messaggio
-                                    }
-                                }
+                            if (msgFeature == MessageFeatures.tags && attr.name().startsWith("tg_")) {
+                                setPresenceOfAttribute(inst,structure,attr,feature,m);
                             }
+                            if (msgFeature == MessageFeatures.tokens && attr.name().startsWith("tk_")) {
+                                setPresenceOfAttribute(inst,structure,attr,feature,m);
+                            }
+                            if (msgFeature == MessageFeatures.refUsers && attr.name().startsWith("ru_")) {
+                                setPresenceOfAttribute(inst,structure,attr,feature,m);
+                            }
+                            if (msgFeature == MessageFeatures.toUsers && attr.name().startsWith("tu_")) {
+                                setPresenceOfAttribute(inst,structure,attr,feature,m);
+                            }
+
                         }
                     }
                 }
@@ -251,6 +237,28 @@ public class MessageToWeka {
         }
 
         return result;
+    }
+
+    private static void setPresenceOfAttribute(Instance inst, Instances structure, Attribute attr, String feature, Message m) {
+        List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
+        if (wordsInMessage.indexOf(attr.name()) == -1) {
+            try {
+                if (inst.value(attr) != 1) {
+                    inst.setValue(structure.attribute(attr.name()).index(), 0);
+                }
+            }
+            catch (Exception ex) {
+                inst.setValue(structure.attribute(attr.name()).index(), 0);
+                String a = "";
+            }
+        } else {
+            try {
+                inst.setValue(structure.attribute(attr.name()).index(), 1);
+            }
+            catch(Exception ex) {
+                String a = "";// attributo non presente nel messaggio
+            }
+        }
     }
 
     private static List<Attribute> getNumericAttributes(String[] features) {
@@ -350,7 +358,7 @@ public class MessageToWeka {
             }
             else if (considerFeature == 2) { // Lista di stringhe
                 List<String> attrValues = getWords(messages,curFeature);
-                String prefix = "";
+                /*String prefix = "";
                 if (curFeature == MessageFeatures.refUsers) {
                     prefix = "ru_";
                 }
@@ -362,9 +370,9 @@ public class MessageToWeka {
                 }
                 if (curFeature == MessageFeatures.toUsers) {
                     prefix = "tu_";
-                }
+                }*/
                 for (String attrVal : attrValues) {
-                    attr = new Attribute(prefix + attrVal);
+                    attr = new Attribute(attrVal);
                     result.add(attr);
                 }
             }
@@ -429,7 +437,7 @@ public class MessageToWeka {
             List<Token> tokens = message.getTokens();
             if (tokens != null) {
                 for (Token tk : tokens) {
-                    result.add(tk.getText());
+                    result.add("tk_" + tk.getText());
                 }
             }
         }
@@ -438,18 +446,22 @@ public class MessageToWeka {
             if (tags != null) {
                 for (Tag tg : tags) { //ESCLUDE I TAG DI TRAINING E DI TESTING
                     if (!tg.getText().toLowerCase().startsWith("training_") && !tg.getText().toLowerCase().startsWith("testing_")) {
-                        result.add(tg.getText());
+                        result.add("tg_" + tg.getText());
                     }
                 }
             }
         }
         if (feature == MessageFeatures.toUsers) {
             List<String> users = message.getToUsers();
-            result.addAll(users);
+            for (String usr : users) {
+                result.add("tu_" + usr);
+            }
         }
         if (feature == MessageFeatures.refUsers) {
             List<String> users = message.getRefUsers();
-            result.addAll(users);
+            for (String usr : users) {
+                result.add("ru_" + usr);
+            }
         }
         if (feature == MessageFeatures.text) {
             result.add(message.getText());
