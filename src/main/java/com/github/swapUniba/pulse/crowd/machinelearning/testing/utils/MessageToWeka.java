@@ -218,7 +218,7 @@ public class MessageToWeka {
                             }
                         }
                         else {
-/*                            if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
+                            if ((msgFeature == MessageFeatures.tags || msgFeature == MessageFeatures.tokens || msgFeature == MessageFeatures.toUsers
                                     || msgFeature == MessageFeatures.refUsers)) {
 
                                 List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
@@ -240,7 +240,7 @@ public class MessageToWeka {
                                        String a = "";// attributo non presente nel messaggio
                                     }
                                 }
-                            }*/
+                            }
                         }
                     }
                 }
@@ -350,8 +350,21 @@ public class MessageToWeka {
             }
             else if (considerFeature == 2) { // Lista di stringhe
                 List<String> attrValues = getWords(messages,curFeature);
+                String prefix = "";
+                if (curFeature == MessageFeatures.refUsers) {
+                    prefix = "ru_";
+                }
+                if (curFeature == MessageFeatures.tags) {
+                    prefix = "tg_";
+                }
+                if (curFeature == MessageFeatures.tokens) {
+                    prefix = "tk_";
+                }
+                if (curFeature == MessageFeatures.toUsers) {
+                    prefix = "tu_";
+                }
                 for (String attrVal : attrValues) {
-                    attr = new Attribute(attrVal);
+                    attr = new Attribute(prefix + attrVal);
                     result.add(attr);
                 }
             }
