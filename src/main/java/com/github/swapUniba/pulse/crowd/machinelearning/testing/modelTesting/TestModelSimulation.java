@@ -6,6 +6,7 @@ import com.github.frapontillo.pulse.crowd.data.entity.Profile;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.MessageToWeka;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.utils.WekaModelHandler;
+import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -43,7 +44,7 @@ public class TestModelSimulation {
 
     private void RunMessageTestingSimulation() {
 
-        Classifier classifier = null;
+        AbstractClassifier classifier = null;
         Instances trainingInstances = null;
         Instances testingInstances = null;
 
@@ -60,16 +61,37 @@ public class TestModelSimulation {
 
         Instances structure = WekaModelHandler.LoadInstanceStructure(config.getModelName());
         structure.setClassIndex(structure.numAttributes() - 1);
-
         String[] attributes = WekaModelHandler.loadFeatures(config.getModelName());
-
         testingInstances = MessageToWeka.getInstancesFromMessagesTest(messages,structure,attributes,config.getModelName());
+        WekaModelHandler.SaveTestingSet(testingInstances,config.getModelName());
 
         try {
-            Evaluation eval = new Evaluation(trainingInstances);
-            eval.evaluateModel(classifier,trainingInstances,config.getOptions()); // ATTENZIONE! è il resubstitution error!
-            System.out.println(eval.correct());
-            System.out.println(eval.meanAbsoluteError());
+            String[] evalOptions = weka.core.Utils.splitOptions(config.getEvaluation());
+            String[] algorithmOptions = classifier.getOptions();
+            List<String> evalOpt = new ArrayList<>();
+
+            for (String s : algorithmOptions) { //aggiungo le opzioni dell'algoritmo di class.
+                evalOpt.add(s);
+            }
+            for (String s : evalOptions) { // aggiungo le opzioni per la valutazione (-x 10 per il 10FCV, etc)
+                evalOpt.add(s);
+            }
+
+            evalOpt.add("-t"); // dove prendere il file del training set
+            evalOpt.add(WekaModelHandler.getModelPath(config.getModelName()));
+            evalOpt.add("-T"); // dove prendere il file del testing set
+            evalOpt.add(WekaModelHandler.getTestingPath(config.getModelName()));
+
+            String[] evalNewOpt = evalOpt.stream().toArray(String[]::new);
+
+            String evaluationOutput = Evaluation.evaluateModel(classifier, evalNewOpt);
+
+            System.out.println(evaluationOutput);
+
+            if (config.isPrintFile()) {
+                WekaModelHandler.writeOutputFile(evaluationOutput,config.getModelName());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

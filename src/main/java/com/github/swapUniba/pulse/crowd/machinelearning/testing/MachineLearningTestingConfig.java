@@ -7,8 +7,9 @@ import com.google.gson.JsonElement;
 public class MachineLearningTestingConfig implements IPluginConfig<MachineLearningTestingConfig> {
 
     private String modelName;
-    private String options;
+    private String evaluation;
     private boolean isSimulation;
+    private boolean printFile = false;
 
     @Override
     public MachineLearningTestingConfig buildFromJsonElement(JsonElement jsonElement) {
@@ -23,19 +24,27 @@ public class MachineLearningTestingConfig implements IPluginConfig<MachineLearni
         this.modelName = modelName;
     }
 
-    public String getOptions() {
-        return options;
-    }
-
-    public void setOptions(String options) {
-        this.options = options;
-    }
-
     public boolean isSimulation() {
         return isSimulation;
     }
 
     public void setSimulation(boolean simulation) {
         isSimulation = simulation;
+    }
+
+    public boolean isPrintFile() {
+        return printFile;
+    }
+
+    public void setPrintFile(boolean printFile) {
+        this.printFile = printFile;
+    }
+
+    public String getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(String evaluation) {
+        this.evaluation = evaluation;
     }
 }

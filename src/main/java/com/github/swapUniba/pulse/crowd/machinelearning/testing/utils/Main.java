@@ -15,8 +15,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TestSingleInstance();
-        //TestTestingSet();
+        //TestSingleInstance();
+        TestTestingSet();
 
     }
 
@@ -52,6 +52,7 @@ public class Main {
     private static void TestTestingSet() {
         MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
         cfg.setModelName("modello");
+        cfg.setEvaluation("-x 10");
 
         List<Entity> messages = new ArrayList<>();
 
@@ -66,6 +67,10 @@ public class Main {
                 tokens.add(new Token(getRandomString()));
             }
 
+            msg.setSentiment(rndm.nextDouble());
+            msg.setLatitude(rndm.nextDouble());
+            msg.setLongitude(rndm.nextDouble());
+            msg.setLanguage("en");
             msg.setTokens(tokens);
             messages.add(msg);
         }

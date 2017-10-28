@@ -1,5 +1,6 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 
+import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.Instances;
@@ -31,8 +32,8 @@ public class WekaModelHandler {
         weka.core.SerializationHelper.write(curPath  + filename+".model", predictiveModel);
     }
 
-    public static Classifier LoadModel(String filename) throws Exception {
-        Classifier cls = (Classifier) weka.core.SerializationHelper.read(curPath + filename + ".model");
+    public static AbstractClassifier LoadModel(String filename) throws Exception {
+        AbstractClassifier cls = (AbstractClassifier) weka.core.SerializationHelper.read(curPath + filename + ".model");
         return cls;
     }
 
@@ -108,6 +109,22 @@ public class WekaModelHandler {
         }
     }
 
+    public static void SaveTestingSet(Instances insts, String modelName) {
+
+        ArffSaver saver = new ArffSaver();
+        saver.setInstances(insts);
+        try {
+            saver.setFile(new File(curPath + modelName + "_testing.arff"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            saver.writeBatch();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void saveFeatures(String[] features, String modelName) {
 
         try(  PrintWriter out = new PrintWriter( curPath + modelName + ".features" )  ){
@@ -145,6 +162,10 @@ public class WekaModelHandler {
 
     public static String getModelPath(String modelName) {
         return curPath + modelName + "_training.arff";
+    }
+
+    public static String getTestingPath(String modelName) {
+        return curPath + modelName + "_testing.arff";
     }
 
     public static void writeOutputFile(String content, String modelName) {
