@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class WekaModelHandler {
 
-    public static final String curPath = System.getProperty("user.dir") + "//models//";
+    public static final String curPath = System.getProperty("user.dir") + File.separator + "models" + File.separator;
 
 
     public static void SaveModel(String filename, Object predictiveModel) throws Exception {
