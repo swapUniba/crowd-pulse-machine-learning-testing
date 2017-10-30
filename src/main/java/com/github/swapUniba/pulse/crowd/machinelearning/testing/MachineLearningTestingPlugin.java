@@ -4,13 +4,10 @@ import com.github.frapontillo.pulse.crowd.data.entity.Entity;
 import com.github.frapontillo.pulse.spi.IPlugin;
 import com.github.frapontillo.pulse.util.PulseLogger;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
-import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModelSimulation;
 import org.apache.logging.log4j.Logger;
 import rx.Observable;
 import rx.Subscriber;
 import rx.observers.SafeSubscriber;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineLearningTestingConfig> {
 
@@ -31,15 +28,15 @@ public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineL
     protected Observable.Operator<Entity, Entity> getOperator(MachineLearningTestingConfig machineLearningTestingConfig) {
         return subscriber -> new SafeSubscriber<>(new Subscriber<Entity>() {
 
-            List<Entity> entities = new ArrayList<>();
+//            List<Entity> entities = new ArrayList<>();
 
             @Override
             public void onCompleted() {
 
-                if (machineLearningTestingConfig.isSimulation()) {
+/*                if (machineLearningTestingConfig.isSimulation()) {
                     TestModelSimulation tm = new TestModelSimulation(machineLearningTestingConfig,entities);
                     tm.RunTestingSimulation();
-                }
+                }*/
 
                 subscriber.onCompleted();
             }
@@ -53,13 +50,13 @@ public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineL
             @Override
             public void onNext(Entity entity) {
 
-                if (machineLearningTestingConfig.isSimulation()) {
-                    entities.add(entity);
-                }
-                else {
-                    TestModel tm = new TestModel(machineLearningTestingConfig,entity);
-                    entity = tm.RunTesting(); //aggiorna l'attributo classe dell'entita in base alla predizione
-                }
+//                if (machineLearningTestingConfig.isSimulation()) {
+//                    entities.add(entity);
+//                }
+//                else {
+                  TestModel tm = new TestModel(machineLearningTestingConfig,entity);
+                  entity = tm.RunTesting(); //aggiorna l'attributo classe dell'entita in base alla predizione
+//                }
 
                 subscriber.onNext(entity);
             }

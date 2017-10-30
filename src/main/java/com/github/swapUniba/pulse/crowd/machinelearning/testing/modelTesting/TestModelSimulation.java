@@ -15,6 +15,9 @@ import java.util.*;
 
 // SINTASSI WEKA PER INFORMAZIONI SUL TESTING http://www.cs.tufts.edu/~ablumer/weka/doc/weka.classifiers.Evaluation.html
 
+/**
+ * NON USATO
+ */
 public class TestModelSimulation {
 
     private MachineLearningTestingConfig config;
@@ -66,7 +69,7 @@ public class TestModelSimulation {
         WekaModelHandler.SaveTestingSet(testingInstances,config.getModelName());
 
         try {
-            String[] evalOptions = weka.core.Utils.splitOptions(config.getEvaluation());
+            String[] evalOptions = null;//weka.core.Utils.splitOptions(config.getEvaluation());
             String[] algorithmOptions = classifier.getOptions();
             List<String> evalOpt = new ArrayList<>();
 
@@ -88,9 +91,9 @@ public class TestModelSimulation {
 
             System.out.println(evaluationOutput);
 
-            if (config.isPrintFile()) {
+            /*if (config.isPrintFile()) {
                 WekaModelHandler.writeOutputFile(evaluationOutput,config.getModelName());
-            }
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();

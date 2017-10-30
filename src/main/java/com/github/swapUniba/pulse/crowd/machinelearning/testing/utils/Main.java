@@ -52,8 +52,6 @@ public class Main {
     private static void TestTestingSet() {
         MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
         cfg.setModelName("modello");
-        cfg.setEvaluation("-x 10");
-        cfg.setPrintFile(true);
         List<Entity> messages = new ArrayList<>();
 
         for (int i = 0; i<100; i++) {
