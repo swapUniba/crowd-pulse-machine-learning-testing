@@ -28,15 +28,9 @@ public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineL
     protected Observable.Operator<Entity, Entity> getOperator(MachineLearningTestingConfig machineLearningTestingConfig) {
         return subscriber -> new SafeSubscriber<>(new Subscriber<Entity>() {
 
-//            List<Entity> entities = new ArrayList<>();
 
             @Override
             public void onCompleted() {
-
-/*                if (machineLearningTestingConfig.isSimulation()) {
-                    TestModelSimulation tm = new TestModelSimulation(machineLearningTestingConfig,entities);
-                    tm.RunTestingSimulation();
-                }*/
 
                 subscriber.onCompleted();
             }
@@ -50,13 +44,8 @@ public class MachineLearningTestingPlugin extends IPlugin<Entity,Entity,MachineL
             @Override
             public void onNext(Entity entity) {
 
-//                if (machineLearningTestingConfig.isSimulation()) {
-//                    entities.add(entity);
-//                }
-//                else {
-                  TestModel tm = new TestModel(machineLearningTestingConfig,entity);
-                  entity = tm.RunTesting(); //aggiorna l'attributo classe dell'entita in base alla predizione
-//                }
+                TestModel tm = new TestModel(machineLearningTestingConfig,entity);
+                entity = tm.RunTesting(); //aggiorna l'attributo classe dell'entita in base alla predizione
 
                 subscriber.onNext(entity);
             }
