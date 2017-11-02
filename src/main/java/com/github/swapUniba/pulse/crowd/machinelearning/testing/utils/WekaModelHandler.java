@@ -37,27 +37,12 @@ public class WekaModelHandler {
         return cls;
     }
 
-    public static void SaveInstanceStructure(Instances insts, String filename) {
-        ArffSaver saver = new ArffSaver();
-        saver.setInstances(insts);
-        try {
-            saver.setFile(new File(curPath +filename+ "_structure.arff"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            saver.writeBatch();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static Instances LoadInstanceStructure(String modelName) {
 
 
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(curPath +modelName+ "_structure.arff"));
+            br = new BufferedReader(new FileReader(curPath +modelName+ "_training.arff"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

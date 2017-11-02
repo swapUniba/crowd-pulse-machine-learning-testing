@@ -1,0 +1,65 @@
+
+Options: -R 
+
+J48 pruned tree
+------------------
+
+tg_ab <= 0
+|   tk_cb <= 0
+|   |   tk_ab <= 0
+|   |   |   tk_cc <= 0
+|   |   |   |   tg_bb <= 0
+|   |   |   |   |   tk_bc <= 0
+|   |   |   |   |   |   tk_ca <= 0
+|   |   |   |   |   |   |   tk_bb <= 0
+|   |   |   |   |   |   |   |   tg_ca <= 0
+|   |   |   |   |   |   |   |   |   tg_bc <= 0: training_modello_class_m5s (41.0/18.0)
+|   |   |   |   |   |   |   |   |   tg_bc > 0: training_modello_class_pd (4.0/1.0)
+|   |   |   |   |   |   |   |   tg_ca > 0: training_modello_class_pd (5.0/1.0)
+|   |   |   |   |   |   |   tk_bb > 0: training_modello_class_pd (13.0/3.0)
+|   |   |   |   |   |   tk_ca > 0: training_modello_class_pd (5.0)
+|   |   |   |   |   tk_bc > 0: training_modello_class_m5s (10.0/3.0)
+|   |   |   |   tg_bb > 0: training_modello_class_pd (10.0/2.0)
+|   |   |   tk_cc > 0: training_modello_class_m5s (12.0/3.0)
+|   |   tk_ab > 0: training_modello_class_pd (10.0/2.0)
+|   tk_cb > 0: training_modello_class_m5s (12.0/3.0)
+tg_ab > 0
+|   tk_a <= 0: training_modello_class_m5s (6.0)
+|   tk_a > 0
+|   |   tg_cc <= 0: training_modello_class_pd (3.0/1.0)
+|   |   tg_cc > 0: training_modello_class_m5s (3.0)
+
+Number of Leaves  : 	13
+
+Size of the tree : 	25
+
+
+Time taken to build model: 0.05 seconds
+Time taken to test model on training data: 0.01 seconds
+
+=== Error on training data ===
+
+Correctly Classified Instances         136               68      %
+Incorrectly Classified Instances        64               32      %
+Kappa statistic                          0.36  
+Mean absolute error                      0.3918
+Root mean squared error                  0.4611
+Relative absolute error                 78.3693 %
+Root relative squared error             92.2122 %
+Total Number of Instances              200     
+
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 0,570    0,210    0,731      0,570    0,640      0,369    0,725     0,680     training_modello_class_pd
+                 0,790    0,430    0,648      0,790    0,712      0,369    0,725     0,692     training_modello_class_m5s
+Weighted Avg.    0,680    0,320    0,689      0,680    0,676      0,369    0,725     0,686     
+
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 57 43 |  a = training_modello_class_pd
+ 21 79 |  b = training_modello_class_m5s
+

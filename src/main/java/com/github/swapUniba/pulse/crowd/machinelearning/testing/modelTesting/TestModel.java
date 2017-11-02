@@ -70,34 +70,45 @@ public class TestModel {
 
         try {
             Enumeration<Object> classEnum = structure.classAttribute().enumerateValues();
-            while (classEnum.hasMoreElements()) {
-                classes.add(classEnum.nextElement());
+            if (classEnum != null) {
+                while (classEnum.hasMoreElements()) {
+                    classes.add(classEnum.nextElement());
+                }
             }
-
             assert classifier != null;
             Object classValue = classifier.classifyInstance(instance);
             Double d = new Double((double)classValue);
             int classPredIndex = d.intValue();
-            String predClass = classes.get(classPredIndex).toString();
-            System.out.println("Classe: " + predClass);
 
             if (message.getTags() == null) {
                 message.setTags(new HashSet<>());
             }
+            Set<Tag> tags = message.getTags();
 
             // Memorizza nei tag la classe associata, rimpiazza training con testing nella classe, per capire che è
             // stata associata dal testing
-            Set<Tag> tags = message.getTags();
-            Tag tagClass = new Tag();
-            tagClass.setText(predClass.replace("training","testing"));
-            tags.add(tagClass);
+            if (classes.size() > 0) {
+                String predClass = classes.get(classPredIndex).toString();
+                System.out.println("Classe: " + predClass);
+
+                Tag tagClass = new Tag();
+                tagClass.setText(predClass.replace("training","testing"));
+                tags.add(tagClass);
+            }
 
             // Memorizza nei tag lo score rispetto ad ogni classe associato all'istanza
             double[] predictionScore = classifier.distributionForInstance(instance);
             for(int i = 0; i < predictionScore.length; i = i + 1)
             {
                 Tag tagScore = new Tag();
-                tagScore.setText(instance.classAttribute().value(i).replace("training","testing") + "_score_" + Double.toString(predictionScore[i]));
+                String clValue = instance.classAttribute().value(i);
+                if (clValue == "") {
+                    tagScore.setText("testing_" +config.getModelName() + "_score_" + Double.toString(predictionScore[i]));
+                }
+                else {
+                    tagScore.setText(clValue.replace("training","testing") + "_score_" + Double.toString(predictionScore[i]));
+                }
+
                 tags.add(tagScore);
             }
 
