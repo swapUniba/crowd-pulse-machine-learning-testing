@@ -131,18 +131,20 @@ public class MessageToWeka {
                         else {
 
                             if (msgFeature == MessageFeatures.tags && attr.name().startsWith("tg_")) {
-                                setPresenceOfAttribute(inst, structure, attr, feature, m);
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                             }
                             if (msgFeature == MessageFeatures.tokens && attr.name().startsWith("tk_")) {
-                                setPresenceOfAttribute(inst, structure, attr, feature, m);
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                             }
                             if (msgFeature == MessageFeatures.refUsers && attr.name().startsWith("ru_")) {
-                                setPresenceOfAttribute(inst, structure, attr, feature, m);
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                             }
                             if (msgFeature == MessageFeatures.toUsers && attr.name().startsWith("tu_")) {
-                                setPresenceOfAttribute(inst, structure, attr, feature, m);
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                             }
-
+                            if (msgFeature == MessageFeatures.customTags && attr.name().startsWith("ct_")) {
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                            }
                         }
                     }
                 }
@@ -156,7 +158,7 @@ public class MessageToWeka {
     }
 
     private static void setPresenceOfAttribute(Instance inst, Instances structure, Attribute attr, String feature, Message m) {
-        List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature.toLowerCase()));
+        List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature));
         if (wordsInMessage.indexOf(attr.name()) == -1) {
             try {
                 if (inst.value(attr) != 1) {
@@ -199,14 +201,26 @@ public class MessageToWeka {
         }
         if (feature == MessageFeatures.toUsers) {
             List<String> users = message.getToUsers();
-            for (String usr : users) {
-                result.add("tu_" + usr);
+            if (users != null) {
+                for (String usr : users) {
+                    result.add("tu_" + usr);
+                }
             }
         }
         if (feature == MessageFeatures.refUsers) {
             List<String> users = message.getRefUsers();
-            for (String usr : users) {
-                result.add("ru_" + usr);
+            if (users != null) {
+                for (String usr : users) {
+                    result.add("ru_" + usr);
+                }
+            }
+        }
+        if (feature == MessageFeatures.customTags) {
+            List<String> ctags = message.getCustomTags();
+            if (ctags != null) {
+                for (String tg : ctags) {
+                    result.add("ct_" + tg);
+                }
             }
         }
         if (feature == MessageFeatures.text) {

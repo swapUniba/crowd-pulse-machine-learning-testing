@@ -31,6 +31,8 @@ public class Main {
             Random rndm = new Random();
             int nWords = rndm.nextInt(3)+1;
             List<Token> tokens = new ArrayList<>();
+            List<String> customTags = new ArrayList<>();
+            customTags.add(getRandomString());
 
             for (int ii = 0; ii < nWords;ii++) {
                 tokens.add(new Token(getRandomString()));
@@ -42,6 +44,7 @@ public class Main {
             msg.setLongitude(rndm.nextDouble());
             msg.setLatitude(rndm.nextDouble());
             msg.setFavs(rndm.nextInt());
+            msg.setCustomTags(customTags);
             msg.setDate(new Date());
             msg.setShares(rndm.nextInt());
             TestModel tm = new TestModel(cfg,msg);
