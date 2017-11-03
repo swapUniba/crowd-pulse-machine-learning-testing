@@ -104,19 +104,31 @@ public class MessageToWeka {
                                 inst.setValue(attrIndex, m.getLongitude());
                             }
                         } else if (msgFeature == MessageFeatures.text && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object text = m.getText();
-                            if (text != null) {
-                                inst.setValue(attrIndex, m.getText());
+                            try {
+                                Object text = m.getText();
+                                if (text != null) {
+                                    inst.setValue(attrIndex, m.getText());
+                                }
+                            }
+                            catch (Exception ex) {
                             }
                         } else if (msgFeature == MessageFeatures.source && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object source = m.getSource();
-                            if (source != null) {
-                                inst.setValue(attrIndex, m.getSource());
+                            try {
+                                Object source = m.getSource();
+                                if (source != null) {
+                                    inst.setValue(attrIndex, m.getSource());
+                                }
+                            }
+                            catch (Exception ex) {
                             }
                         } else if (msgFeature == MessageFeatures.fromUser && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object fromUser = m.getFromUser();
-                            if (fromUser != null) {
-                                inst.setValue(attrIndex, m.getFromUser());
+                            try {
+                                Object fromUser = m.getFromUser();
+                                if (fromUser != null) {
+                                    inst.setValue(attrIndex, m.getFromUser());
+                                }
+                            }
+                            catch(Exception ex) {
                             }
                         } else if (msgFeature == MessageFeatures.date && attr.name().equalsIgnoreCase(msgFeature.toString())) {
                             Date date = m.getDate();
