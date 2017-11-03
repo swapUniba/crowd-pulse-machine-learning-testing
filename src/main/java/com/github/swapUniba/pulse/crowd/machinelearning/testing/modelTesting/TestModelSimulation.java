@@ -69,7 +69,7 @@ public class TestModelSimulation {
         WekaModelHandler.SaveTestingSet(testingInstances,config.getModelName());
 
         try {
-            String[] evalOptions = null;//weka.core.Utils.splitOptions(config.getEvaluation());
+            String[] evalOptions = null;
             String[] algorithmOptions = classifier.getOptions();
             List<String> evalOpt = new ArrayList<>();
 
@@ -90,10 +90,6 @@ public class TestModelSimulation {
             String evaluationOutput = Evaluation.evaluateModel(classifier, evalNewOpt);
 
             System.out.println(evaluationOutput);
-
-            /*if (config.isPrintFile()) {
-                WekaModelHandler.writeOutputFile(evaluationOutput,config.getModelName());
-            }*/
 
         } catch (Exception e) {
             e.printStackTrace();

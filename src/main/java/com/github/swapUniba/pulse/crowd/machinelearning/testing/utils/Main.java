@@ -1,6 +1,7 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +42,7 @@ public class Main {
             msg.setLongitude(rndm.nextDouble());
             msg.setLatitude(rndm.nextDouble());
             msg.setFavs(rndm.nextInt());
+            msg.setDate(new Date());
             msg.setShares(rndm.nextInt());
             TestModel tm = new TestModel(cfg,msg);
 

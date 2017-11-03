@@ -3,12 +3,14 @@ package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Tag;
 import com.github.frapontillo.pulse.crowd.data.entity.Token;
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingPlugin;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.enums.MessageFeatures;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
+import java.text.ParseException;
 import java.util.*;
 
 public class MessageToWeka {
@@ -116,7 +118,17 @@ public class MessageToWeka {
                             if (fromUser != null) {
                                 inst.setValue(attrIndex, m.getFromUser());
                             }
-                        } else {
+                        } else if (msgFeature == MessageFeatures.date && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                            Date date = m.getDate();
+                            if (date != null) {
+                                try {
+                                    inst.setValue(attr,attr.parseDate(attr.formatDate(date.getTime())));
+                                } catch (ParseException e) {
+                                    MachineLearningTestingPlugin.logger.error("ERRORE: DATA NON RICONOSCIUTA!" + e.toString());
+                                }
+                            }
+                        }
+                        else {
 
                             if (msgFeature == MessageFeatures.tags && attr.name().startsWith("tg_")) {
                                 setPresenceOfAttribute(inst, structure, attr, feature, m);
