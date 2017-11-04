@@ -1,13 +1,8 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-import com.github.frapontillo.pulse.crowd.data.entity.Entity;
-import com.github.frapontillo.pulse.crowd.data.entity.Message;
-import com.github.frapontillo.pulse.crowd.data.entity.Token;
+import com.github.frapontillo.pulse.crowd.data.entity.*;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModelSimulation;
@@ -32,10 +27,24 @@ public class Main {
             int nWords = rndm.nextInt(3)+1;
             List<Token> tokens = new ArrayList<>();
             List<String> customTags = new ArrayList<>();
+            Set<Tag> tags = new HashSet<>();
             customTags.add(getRandomString());
 
             for (int ii = 0; ii < nWords;ii++) {
                 tokens.add(new Token(getRandomString()));
+            }
+
+            for (int ii = 0; ii < nWords;ii++) {
+
+                Tag tg = new Tag();
+
+                tg.setText(getRandomString());
+                Set<Category> ctgs = new HashSet<>();
+                Category ctg = new Category();
+                ctg.setText("Categoria:" + getRandomString());
+                ctgs.add(ctg);
+                tg.setCategories(ctgs);
+                tags.add(tg);
             }
 
             msg.setSentiment(rndm.nextDouble());
@@ -46,6 +55,7 @@ public class Main {
             msg.setFavs(rndm.nextInt());
             msg.setCustomTags(customTags);
             msg.setDate(new Date());
+            msg.setTags(tags);
             msg.setShares(rndm.nextInt());
             TestModel tm = new TestModel(cfg,msg);
 

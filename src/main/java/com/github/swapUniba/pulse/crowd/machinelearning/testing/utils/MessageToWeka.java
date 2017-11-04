@@ -1,5 +1,6 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 
+import com.github.frapontillo.pulse.crowd.data.entity.Category;
 import com.github.frapontillo.pulse.crowd.data.entity.Message;
 import com.github.frapontillo.pulse.crowd.data.entity.Tag;
 import com.github.frapontillo.pulse.crowd.data.entity.Token;
@@ -157,6 +158,9 @@ public class MessageToWeka {
                             if (msgFeature == MessageFeatures.customTags && attr.name().startsWith("ct_")) {
                                 setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                             }
+                            if (msgFeature == MessageFeatures.categories && attr.name().startsWith("cg_")) {
+                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                            }
                         }
                     }
                 }
@@ -235,6 +239,27 @@ public class MessageToWeka {
                 }
             }
         }
+        if (feature == MessageFeatures.categories) {
+            try {
+                Set<Tag> tags = message.getTags();
+                if (tags != null) {
+                    for (Tag tg : tags) {
+                        if (tg.getCategories() != null) {
+                            for (Category ct : tg.getCategories()) {
+                                if (!ct.isStopWord()) {
+                                    String[] ctgs = ct.getText().split(":");
+                                    result.add("cg_" + ctgs[1]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) {
+                MachineLearningTestingPlugin.logger.error("ERRORE CATEGORIE: " + ex.toString());
+            }
+        }
+
         if (feature == MessageFeatures.text) {
             result.add(message.getText());
         }

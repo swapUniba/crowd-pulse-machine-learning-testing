@@ -4,72 +4,70 @@ Options: -R
 J48 pruned tree
 ------------------
 
-tk_cb <= 0
-|   tg_cc <= 0
-|   |   tk_ab <= 0
-|   |   |   ct_ab <= 0
-|   |   |   |   ct_bb <= 0
-|   |   |   |   |   tg_cb <= 0
-|   |   |   |   |   |   fromUser = aa: training_modello_class_m5s (3.0/1.0)
-|   |   |   |   |   |   fromUser = ab
-|   |   |   |   |   |   |   favs <= 14: training_modello_class_m5s (2.0)
-|   |   |   |   |   |   |   favs > 14: training_modello_class_pd (2.0)
-|   |   |   |   |   |   fromUser = ac: training_modello_class_pd (4.0/1.0)
-|   |   |   |   |   |   fromUser = ba: training_modello_class_m5s (6.0/1.0)
-|   |   |   |   |   |   fromUser = bb: training_modello_class_pd (3.0)
-|   |   |   |   |   |   fromUser = bc: training_modello_class_m5s (5.0/2.0)
-|   |   |   |   |   |   fromUser = ca: training_modello_class_pd (5.0)
-|   |   |   |   |   |   fromUser = cb: training_modello_class_m5s (3.0/1.0)
-|   |   |   |   |   |   fromUser = cc: training_modello_class_m5s (3.0/1.0)
-|   |   |   |   |   |   fromUser = a: training_modello_class_m5s (14.0/6.0)
-|   |   |   |   |   |   fromUser = b: training_modello_class_pd (17.0/6.0)
-|   |   |   |   |   |   fromUser = c
-|   |   |   |   |   |   |   tk_bc <= 0
-|   |   |   |   |   |   |   |   ct_b <= 0
-|   |   |   |   |   |   |   |   |   shares <= 6: training_modello_class_pd (4.0)
-|   |   |   |   |   |   |   |   |   shares > 6: training_modello_class_m5s (4.0/1.0)
-|   |   |   |   |   |   |   |   ct_b > 0: training_modello_class_pd (2.0)
-|   |   |   |   |   |   |   tk_bc > 0: training_modello_class_m5s (2.0)
-|   |   |   |   |   tg_cb > 0: training_modello_class_pd (8.0/1.0)
-|   |   |   |   ct_bb > 0: training_modello_class_m5s (7.0/2.0)
-|   |   |   ct_ab > 0: training_modello_class_m5s (5.0)
-|   |   tk_ab > 0
-|   |   |   ct_b <= 0: training_modello_class_m5s (8.0)
-|   |   |   ct_b > 0: training_modello_class_pd (3.0/1.0)
-|   tg_cc > 0: training_modello_class_pd (12.0/2.0)
-tk_cb > 0: training_modello_class_m5s (12.0/2.0)
+ct_aa <= 0
+|   ct_ca <= 0
+|   |   tg_ac <= 0
+|   |   |   fromUser = aa: training_modello_class_m5s (3.0/1.0)
+|   |   |   fromUser = ab
+|   |   |   |   tg_ca <= 0: training_modello_class_pd (5.0/1.0)
+|   |   |   |   tg_ca > 0: training_modello_class_m5s (2.0)
+|   |   |   fromUser = ac: training_modello_class_m5s (5.0/1.0)
+|   |   |   fromUser = ba: training_modello_class_pd (7.0/3.0)
+|   |   |   fromUser = bb: training_modello_class_pd (2.0)
+|   |   |   fromUser = bc: training_modello_class_m5s (4.0/1.0)
+|   |   |   fromUser = ca
+|   |   |   |   tg_b <= 0: training_modello_class_m5s (3.0/1.0)
+|   |   |   |   tg_b > 0: training_modello_class_pd (4.0)
+|   |   |   fromUser = cb: training_modello_class_m5s (3.0/1.0)
+|   |   |   fromUser = cc: training_modello_class_pd (8.0/3.0)
+|   |   |   fromUser = a: training_modello_class_pd (19.0/4.0)
+|   |   |   fromUser = b
+|   |   |   |   cg_c <= 0
+|   |   |   |   |   cg_ba <= 0
+|   |   |   |   |   |   cg_b <= 0: training_modello_class_pd (8.0/1.0)
+|   |   |   |   |   |   cg_b > 0
+|   |   |   |   |   |   |   favs <= 14: training_modello_class_pd (2.0/1.0)
+|   |   |   |   |   |   |   favs > 14: training_modello_class_m5s (2.0)
+|   |   |   |   |   cg_ba > 0: training_modello_class_m5s (3.0)
+|   |   |   |   cg_c > 0: training_modello_class_m5s (5.0)
+|   |   |   fromUser = c: training_modello_class_pd (21.0/9.0)
+|   |   tg_ac > 0
+|   |   |   ct_c <= 0: training_modello_class_m5s (6.0)
+|   |   |   ct_c > 0: training_modello_class_pd (2.0/1.0)
+|   ct_ca > 0: training_modello_class_pd (10.0/2.0)
+ct_aa > 0: training_modello_class_m5s (10.0/2.0)
 
-Number of Leaves  : 	23
+Number of Leaves  : 	22
 
-Size of the tree : 	35
+Size of the tree : 	33
 
 
-Time taken to build model: 0.12 seconds
-Time taken to test model on training data: 0.03 seconds
+Time taken to build model: 0.13 seconds
+Time taken to test model on training data: 0.04 seconds
 
 === Error on training data ===
 
-Correctly Classified Instances         144               72      %
-Incorrectly Classified Instances        56               28      %
-Kappa statistic                          0.4396
-Mean absolute error                      0.3481
-Root mean squared error                  0.4495
-Relative absolute error                 69.6328 %
-Root relative squared error             89.8992 %
+Correctly Classified Instances         141               70.5    %
+Incorrectly Classified Instances        59               29.5    %
+Kappa statistic                          0.4031
+Mean absolute error                      0.3744
+Root mean squared error                  0.4657
+Relative absolute error                 75.0072 %
+Root relative squared error             93.2219 %
 Total Number of Instances              200     
 
 
 === Detailed Accuracy By Class ===
 
                  TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
-                 0,687    0,248    0,731      0,687    0,708      0,440    0,773     0,724     training_modello_class_pd
-                 0,752    0,313    0,710      0,752    0,731      0,440    0,773     0,749     training_modello_class_m5s
-Weighted Avg.    0,720    0,281    0,721      0,720    0,720      0,440    0,773     0,737     
+                 0,837    0,438    0,674      0,837    0,747      0,417    0,725     0,700     training_modello_class_pd
+                 0,563    0,163    0,761      0,563    0,647      0,417    0,725     0,689     training_modello_class_m5s
+Weighted Avg.    0,705    0,306    0,716      0,705    0,699      0,417    0,725     0,695     
 
 
 === Confusion Matrix ===
 
   a  b   <-- classified as
- 68 31 |  a = training_modello_class_pd
- 25 76 |  b = training_modello_class_m5s
+ 87 17 |  a = training_modello_class_pd
+ 42 54 |  b = training_modello_class_m5s
 
