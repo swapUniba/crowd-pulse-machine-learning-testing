@@ -1,5 +1,6 @@
 package com.github.swapUniba.pulse.crowd.machinelearning.testing.utils;
 
+import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingPlugin;
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 import weka.core.Attribute;
@@ -33,6 +34,7 @@ public class WekaModelHandler {
     }
 
     public static AbstractClassifier LoadModel(String filename) throws Exception {
+        MachineLearningTestingPlugin.logger.info("PERCORSO: " + curPath+filename+".model");
         AbstractClassifier cls = (AbstractClassifier) weka.core.SerializationHelper.read(curPath + filename + ".model");
         return cls;
     }
