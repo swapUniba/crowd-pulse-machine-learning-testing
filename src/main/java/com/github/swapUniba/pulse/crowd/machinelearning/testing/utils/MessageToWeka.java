@@ -171,7 +171,9 @@ public class MessageToWeka {
             List<Token> tokens = message.getTokens();
             if (tokens != null) {
                 for (Token tk : tokens) {
-                    result.add("tk_" + tk.getText());
+                    if (!tk.isStopWord()) {
+                        result.add("tk_" + tk.getText());
+                    }
                 }
             }
         }
@@ -179,8 +181,10 @@ public class MessageToWeka {
             Set<Tag> tags = message.getTags();
             if (tags != null) {
                 for (Tag tg : tags) { //ESCLUDE I TAG DI TRAINING E DI TESTING
-                    if (!tg.getText().toLowerCase().startsWith("training_") && !tg.getText().toLowerCase().startsWith("testing_")) {
-                        result.add("tg_" + tg.getText());
+                    if (!tg.isStopWord()) {
+                        if (!tg.getText().toLowerCase().startsWith("training_") && !tg.getText().toLowerCase().startsWith("testing_")) {
+                            result.add("tg_" + tg.getText());
+                        }
                     }
                 }
             }
