@@ -58,9 +58,9 @@ public class TestModel {
 
         Instances structure = WekaModelHandler.LoadInstanceStructure(config.getModelName());
         structure.setClassIndex(structure.numAttributes() - 1);
-        String[] features = WekaModelHandler.loadFeatures(config.getModelName());
+        //String[] features = WekaModelHandler.loadFeatures(config.getModelName());
 
-        Instance instance = MessageToWeka.getInstancesFromMessagesTest(message,structure,features, config.getModelName());
+        Instance instance = MessageToWeka.getInstancesFromMessagesTest(message,structure);
 
         List<Object> classes = new ArrayList<>();
 

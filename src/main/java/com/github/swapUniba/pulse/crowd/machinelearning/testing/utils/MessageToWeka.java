@@ -19,7 +19,7 @@ public class MessageToWeka {
     private static String classAttributeName = "predictedClass";
 
     // Riceve un messaggio, ne estrae le features rilevanti per il modello per poterlo classificare
-    public static Instance getInstancesFromMessagesTest(Message m, Instances structure, String[] fts, String modelName) {
+    public static Instance getInstancesFromMessagesTest(Message m, Instances structure) {
 
         Instance inst = new DenseInstance(structure.numAttributes());
         inst.setDataset(structure);
