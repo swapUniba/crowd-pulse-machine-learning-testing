@@ -47,7 +47,7 @@ public class TestModelSimulation {
 
     private void RunMessageTestingSimulation() {
 
-        AbstractClassifier classifier = null;
+        /*AbstractClassifier classifier = null;
         Instances trainingInstances = null;
         Instances testingInstances = null;
 
@@ -93,7 +93,7 @@ public class TestModelSimulation {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 
     }

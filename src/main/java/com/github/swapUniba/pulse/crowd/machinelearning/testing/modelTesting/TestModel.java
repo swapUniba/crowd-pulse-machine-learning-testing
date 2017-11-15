@@ -60,11 +60,7 @@ public class TestModel {
         structure.setClassIndex(structure.numAttributes() - 1);
         String[] features = WekaModelHandler.loadFeatures(config.getModelName());
 
-        List<Message> messages = new ArrayList<>();
-        messages.add(message);
-
-        // prende l'unica istanza, dato che è un test puntuale
-        Instance instance = MessageToWeka.getInstancesFromMessagesTest(messages,structure,features, config.getModelName()).get(0);
+        Instance instance = MessageToWeka.getInstancesFromMessagesTest(message,structure,features, config.getModelName());
 
         List<Object> classes = new ArrayList<>();
 

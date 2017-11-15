@@ -19,11 +19,11 @@ public class MessageToWeka {
     private static String classAttributeName = "predictedClass";
 
     // Riceve un messaggio, ne estrae le features rilevanti per il modello per poterlo classificare
-    public static Instances getInstancesFromMessagesTest(List<Message> messages, Instances structure, String[] fts, String modelName) {
+    public static Instance getInstancesFromMessagesTest(Message m, Instances structure, String[] fts, String modelName) {
 
-        Instances result = structure;
+        //Instances result = structure;
 
-        result.setClassIndex(structure.numAttributes() - 1);
+        //result.setClassIndex(structure.numAttributes() - 1);
 
         //bonifica i nomi delle feature prima di avviare il parsing
         List<String> featList = new ArrayList<>();
@@ -41,136 +41,130 @@ public class MessageToWeka {
         String[] features = new String[featList.size()];
         features = featList.toArray(features);
 
-        for (Message m : messages) {
+        Instance inst = new DenseInstance(structure.numAttributes());
+        inst.setDataset(structure);
 
-            Instance inst = new DenseInstance(structure.numAttributes());
-            inst.setDataset(result);
+        for (String feature : features) {
 
-            for (String feature : features) {
+            Enumeration<Attribute> attrEnum = structure.enumerateAttributes();
 
-                Enumeration<Attribute> attrEnum = structure.enumerateAttributes();
+            while (attrEnum.hasMoreElements()) {
 
-                while (attrEnum.hasMoreElements()) {
+                Attribute attr = attrEnum.nextElement();
 
-                    Attribute attr = attrEnum.nextElement();
+                if (!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) { // scansiona tutti gli attr, tranne quello di classe
 
-                    if (!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) { // scansiona tutti gli attr, tranne quello di classe
+                    MessageFeatures msgFeature = MessageFeatures.valueOf(feature);
 
-                        MessageFeatures msgFeature = MessageFeatures.valueOf(feature);
+                    int attrIndex = structure.attribute(attr.name()).index();
 
-                        int attrIndex = structure.attribute(attr.name()).index();
-
-                        if (msgFeature == MessageFeatures.cluster_kmeans && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object cluster = m.getClusterKmeans();
-                            if (cluster != null) {
-                                inst.setValue(attrIndex, m.getClusterKmeans());
+                    if (msgFeature == MessageFeatures.cluster_kmeans && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object cluster = m.getClusterKmeans();
+                        if (cluster != null) {
+                            inst.setValue(attrIndex, m.getClusterKmeans());
+                        }
+                    } else if (msgFeature == MessageFeatures.sentiment && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object sentiment = m.getSentiment();
+                        if (sentiment != null) {
+                            inst.setValue(attrIndex, m.getSentiment());
+                        }
+                    } else if (msgFeature == MessageFeatures.number_cluster && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object cluster = m.getCluster();
+                        if (cluster != null) {
+                            inst.setValue(attrIndex, m.getCluster());
+                        }
+                    } else if (msgFeature == MessageFeatures.language && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        try {
+                            Object language = m.getLanguage();
+                            if (language != null) {
+                                inst.setValue(attrIndex, m.getLanguage());
                             }
-                        } else if (msgFeature == MessageFeatures.sentiment && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object sentiment = m.getSentiment();
-                            if (sentiment != null) {
-                                inst.setValue(attrIndex, m.getSentiment());
-                            }
-                        } else if (msgFeature == MessageFeatures.number_cluster && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object cluster = m.getCluster();
-                            if (cluster != null) {
-                                inst.setValue(attrIndex, m.getCluster());
-                            }
-                        } else if (msgFeature == MessageFeatures.language && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            try {
-                                Object language = m.getLanguage();
-                                if (language != null) {
-                                    inst.setValue(attrIndex, m.getLanguage());
-                                }
-                            } catch (Exception ex) {
-                                // stringa non presente nel modello
-                            }
-                        } else if (msgFeature == MessageFeatures.shares && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object shares = m.getShares();
-                            if (shares != null) {
-                                inst.setValue(attrIndex, m.getShares());
-                            }
-                        } else if (msgFeature == MessageFeatures.favs && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object favs = m.getFavs();
-                            if (favs != null) {
-                                inst.setValue(attrIndex, m.getFavs());
-                            }
-                        } else if (msgFeature == MessageFeatures.latitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object latitude = m.getLatitude();
-                            if (latitude != null) {
-                                inst.setValue(attrIndex, m.getLatitude());
-                            }
-                        } else if (msgFeature == MessageFeatures.longitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Object longitude = m.getLongitude();
-                            if (longitude != null) {
-                                inst.setValue(attrIndex, m.getLongitude());
-                            }
-                        } else if (msgFeature == MessageFeatures.text && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            try {
-                                Object text = m.getText();
-                                if (text != null) {
-                                    inst.setValue(attrIndex, m.getText());
-                                }
-                            }
-                            catch (Exception ex) {
-                            }
-                        } else if (msgFeature == MessageFeatures.source && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            try {
-                                Object source = m.getSource();
-                                if (source != null) {
-                                    inst.setValue(attrIndex, m.getSource());
-                                }
-                            }
-                            catch (Exception ex) {
-                            }
-                        } else if (msgFeature == MessageFeatures.fromUser && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            try {
-                                Object fromUser = m.getFromUser();
-                                if (fromUser != null) {
-                                    inst.setValue(attrIndex, m.getFromUser());
-                                }
-                            }
-                            catch(Exception ex) {
-                            }
-                        } else if (msgFeature == MessageFeatures.date && attr.name().equalsIgnoreCase(msgFeature.toString())) {
-                            Date date = m.getDate();
-                            if (date != null) {
-                                try {
-                                    inst.setValue(attr,attr.parseDate(attr.formatDate(date.getTime())));
-                                } catch (ParseException e) {
-                                    MachineLearningTestingPlugin.logger.error("ERRORE: DATA NON RICONOSCIUTA!" + e.toString());
-                                }
+                        } catch (Exception ex) {
+                            // stringa non presente nel modello
+                        }
+                    } else if (msgFeature == MessageFeatures.shares && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object shares = m.getShares();
+                        if (shares != null) {
+                            inst.setValue(attrIndex, m.getShares());
+                        }
+                    } else if (msgFeature == MessageFeatures.favs && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object favs = m.getFavs();
+                        if (favs != null) {
+                            inst.setValue(attrIndex, m.getFavs());
+                        }
+                    } else if (msgFeature == MessageFeatures.latitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object latitude = m.getLatitude();
+                        if (latitude != null) {
+                            inst.setValue(attrIndex, m.getLatitude());
+                        }
+                    } else if (msgFeature == MessageFeatures.longitude && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Object longitude = m.getLongitude();
+                        if (longitude != null) {
+                            inst.setValue(attrIndex, m.getLongitude());
+                        }
+                    } else if (msgFeature == MessageFeatures.text && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        try {
+                            Object text = m.getText();
+                            if (text != null) {
+                                inst.setValue(attrIndex, m.getText());
                             }
                         }
-                        else {
+                        catch (Exception ex) {
+                        }
+                    } else if (msgFeature == MessageFeatures.source && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        try {
+                            Object source = m.getSource();
+                            if (source != null) {
+                                inst.setValue(attrIndex, m.getSource());
+                            }
+                        }
+                        catch (Exception ex) {
+                        }
+                    } else if (msgFeature == MessageFeatures.fromUser && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        try {
+                            Object fromUser = m.getFromUser();
+                            if (fromUser != null) {
+                                inst.setValue(attrIndex, m.getFromUser());
+                            }
+                        }
+                        catch(Exception ex) {
+                        }
+                    } else if (msgFeature == MessageFeatures.date && attr.name().equalsIgnoreCase(msgFeature.toString())) {
+                        Date date = m.getDate();
+                        if (date != null) {
+                            try {
+                                inst.setValue(attr,attr.parseDate(attr.formatDate(date.getTime())));
+                            } catch (ParseException e) {
+                                MachineLearningTestingPlugin.logger.error("ERRORE: DATA NON RICONOSCIUTA!" + e.toString());
+                            }
+                        }
+                    }
+                    else {
 
-                            if (msgFeature == MessageFeatures.tags && attr.name().startsWith("tg_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
-                            if (msgFeature == MessageFeatures.tokens && attr.name().startsWith("tk_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
-                            if (msgFeature == MessageFeatures.refUsers && attr.name().startsWith("ru_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
-                            if (msgFeature == MessageFeatures.toUsers && attr.name().startsWith("tu_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
-                            if (msgFeature == MessageFeatures.customTags && attr.name().startsWith("ct_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
-                            if (msgFeature == MessageFeatures.categories && attr.name().startsWith("cg_")) {
-                                setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
-                            }
+                        if (msgFeature == MessageFeatures.tags && attr.name().startsWith("tg_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                        }
+                        if (msgFeature == MessageFeatures.tokens && attr.name().startsWith("tk_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                        }
+                        if (msgFeature == MessageFeatures.refUsers && attr.name().startsWith("ru_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                        }
+                        if (msgFeature == MessageFeatures.toUsers && attr.name().startsWith("tu_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                        }
+                        if (msgFeature == MessageFeatures.customTags && attr.name().startsWith("ct_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
+                        }
+                        if (msgFeature == MessageFeatures.categories && attr.name().startsWith("cg_")) {
+                            setPresenceOfAttribute(inst, structure, attr, msgFeature.name(), m);
                         }
                     }
                 }
             }
-
-            result.add(inst);
-
         }
 
-        return result;
+        return inst;
     }
 
     private static void setPresenceOfAttribute(Instance inst, Instances structure, Attribute attr, String feature, Message m) {
