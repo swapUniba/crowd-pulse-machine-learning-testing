@@ -21,22 +21,6 @@ public class MessageToWeka {
     // Riceve un messaggio, ne estrae le features rilevanti per il modello per poterlo classificare
     public static Instance getInstancesFromMessagesTest(Message m, Instances structure, String[] fts, String modelName) {
 
-        //bonifica i nomi delle feature prima di avviare il parsing
-        List<String> featList = new ArrayList<>();
-
-        for (String f : fts) {
-            for (MessageFeatures ft : MessageFeatures.values()) { //individua la feature nell'enum
-                if (ft.name().toLowerCase().startsWith(f.toLowerCase())) {
-                    featList.add(ft.name());
-                    break;
-                }
-            }
-
-        }
-
-        String[] features = new String[featList.size()];
-        features = featList.toArray(features);
-
         Instance inst = new DenseInstance(structure.numAttributes());
         inst.setDataset(structure);
 
@@ -48,7 +32,6 @@ public class MessageToWeka {
 
             if (!attr.name().toLowerCase().startsWith(classAttributeName.toLowerCase())) { // scansiona tutti gli attr, tranne quello di classe
 
-                //MessageFeatures msgFeature = MessageFeatures.valueOf(feature);
 
                 int attrIndex = structure.attribute(attr.name()).index();
 
