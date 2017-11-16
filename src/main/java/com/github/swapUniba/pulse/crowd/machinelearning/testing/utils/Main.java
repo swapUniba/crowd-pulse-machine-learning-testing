@@ -5,7 +5,6 @@ import java.util.*;
 import com.github.frapontillo.pulse.crowd.data.entity.*;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.MachineLearningTestingConfig;
 import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModel;
-import com.github.swapUniba.pulse.crowd.machinelearning.testing.modelTesting.TestModelSimulation;
 
 public class Main {
 
@@ -62,35 +61,6 @@ public class Main {
             Object result = tm.RunTesting();
 
         }
-    }
-
-    private static void TestTestingSet() {
-        MachineLearningTestingConfig cfg = new MachineLearningTestingConfig();
-        cfg.setModelName("modello");
-        List<Entity> messages = new ArrayList<>();
-
-        for (int i = 0; i<100; i++) {
-
-            Message msg = new Message();
-            Random rndm = new Random();
-            int nWords = rndm.nextInt(3)+1;
-            List<Token> tokens = new ArrayList<>();
-
-            for (int ii = 0; ii < nWords;ii++) {
-                tokens.add(new Token(getRandomString()));
-            }
-
-            msg.setSentiment(rndm.nextDouble());
-            msg.setLatitude(rndm.nextDouble());
-            msg.setLongitude(rndm.nextDouble());
-            msg.setLanguage("en");
-            msg.setTokens(tokens);
-            messages.add(msg);
-        }
-
-        TestModelSimulation tm = new TestModelSimulation(cfg,messages);
-        tm.RunTestingSimulation();
-
     }
 
     private static String getRandomString() {
