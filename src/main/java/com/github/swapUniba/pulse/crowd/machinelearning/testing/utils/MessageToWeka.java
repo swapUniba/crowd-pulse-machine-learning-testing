@@ -119,22 +119,22 @@ public class MessageToWeka {
                 else {
 
                     if (attr.name().startsWith("tg_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tags.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tags, m);
                     }
                     if (attr.name().startsWith("tk_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tokens.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tokens, m);
                     }
                     if (attr.name().startsWith("ru_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.refUsers.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.refUsers, m);
                     }
                     if (attr.name().startsWith("tu_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.toUsers.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.toUsers, m);
                     }
                     if (attr.name().startsWith("ct_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.customTags.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.customTags, m);
                     }
                     if (attr.name().startsWith("cg_")) {
-                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.categories.name(), m);
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.categories, m);
                     }
                 }
             }
@@ -143,8 +143,8 @@ public class MessageToWeka {
         return inst;
     }
 
-    private static void setPresenceOfAttribute(Instance inst, Instances structure, Attribute attr, String feature, Message m) {
-        List<String> wordsInMessage = getWordsFromMessage(m, MessageFeatures.valueOf(feature));
+    private static void setPresenceOfAttribute(Instance inst, Instances structure, Attribute attr, MessageFeatures feature, Message m) {
+        List<String> wordsInMessage = getWordsFromMessage(m, feature);
         if (wordsInMessage.indexOf(attr.name()) == -1) {
             try {
                 if (inst.value(attr) != 1) {
