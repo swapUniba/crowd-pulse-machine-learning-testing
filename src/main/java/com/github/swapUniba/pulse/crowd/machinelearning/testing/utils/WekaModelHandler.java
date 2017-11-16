@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class WekaModelHandler {
 
-    public static final String curPath = System.getProperty("user.dir") + File.separator + "models" + File.separator;
-
+    //public static final String curPath = System.getProperty("user.dir") + File.separator + "models" + File.separator;
+    public static final String curPath = "/opt/crowd-pulse/build/install/crowd-pulse/lib/models/";
 
     public static void SaveModel(String filename, Object predictiveModel) throws Exception {
 
