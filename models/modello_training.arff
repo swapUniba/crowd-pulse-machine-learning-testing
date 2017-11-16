@@ -5,10 +5,10 @@
 @attribute sentiment numeric
 @attribute latitude numeric
 @attribute longitude numeric
-@attribute cg_bb numeric
-@attribute cg_ba numeric
-@attribute cg_bc numeric
-@attribute cg_aa numeric
+@attribute bb numeric
+@attribute ba numeric
+@attribute bc numeric
+@attribute aa numeric
 @attribute cg_ac numeric
 @attribute cg_ab numeric
 @attribute cg_c numeric
