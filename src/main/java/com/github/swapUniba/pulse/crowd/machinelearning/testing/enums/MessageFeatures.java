@@ -19,6 +19,7 @@ public enum MessageFeatures {
     sentiment,
     number_cluster,
     cluster_kmeans,
-    categories
+    categories,
+    tokens_noPrefix //usato per costruzione di modelli non convenzionale
 }
 

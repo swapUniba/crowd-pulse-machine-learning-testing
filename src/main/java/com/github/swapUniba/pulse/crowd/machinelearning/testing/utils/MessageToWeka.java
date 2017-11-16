@@ -121,20 +121,25 @@ public class MessageToWeka {
                     if (attr.name().startsWith("tg_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tags, m);
                     }
-                    if (attr.name().startsWith("tk_")) {
+                    else if (attr.name().startsWith("tk_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tokens, m);
                     }
-                    if (attr.name().startsWith("ru_")) {
+                    else if (attr.name().startsWith("ru_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.refUsers, m);
                     }
-                    if (attr.name().startsWith("tu_")) {
+                    else if (attr.name().startsWith("tu_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.toUsers, m);
                     }
-                    if (attr.name().startsWith("ct_")) {
+                    else if (attr.name().startsWith("ct_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.customTags, m);
                     }
-                    if (attr.name().startsWith("cg_")) {
+                    else if (attr.name().startsWith("cg_")) {
                         setPresenceOfAttribute(inst, structure, attr, MessageFeatures.categories, m);
+                    }
+                    else {
+                        //nel caso ci siano attributi senza prefissi o non riconosciuti, trattali come token
+                        // questo caso serve per testare modelli già costruiti che non hanno utilizzato il plugin di training
+                        setPresenceOfAttribute(inst, structure, attr, MessageFeatures.tokens_noPrefix, m);
                     }
                 }
             }
@@ -173,6 +178,16 @@ public class MessageToWeka {
                 for (Token tk : tokens) {
                     if (!tk.isStopWord()) {
                         result.add("tk_" + tk.getText());
+                    }
+                }
+            }
+        }
+        if (feature == MessageFeatures.tokens_noPrefix) {
+            List<Token> tokens = message.getTokens();
+            if (tokens != null) {
+                for (Token tk : tokens) {
+                    if (!tk.isStopWord()) {
+                        result.add(tk.getText());
                     }
                 }
             }
